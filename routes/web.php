@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\navbarController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [navbarController::class, 'home']);
+Route::get('/class', [navbarController::class, 'class']);
 
 Route::middleware([
     'auth:sanctum',
