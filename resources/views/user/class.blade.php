@@ -3,5 +3,5 @@
 @section('title', 'Class')
 
 @section('content')
-    <h1>Selamat Datang di Class</h1>
+    <h1>Selamat Datang di Class berma</h1>
 @endsection
