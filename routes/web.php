@@ -15,6 +15,10 @@ Route::get('/mentor', function () {
     return view('user.mentor');
 })->name('mentor');
 
+Route::get('/mentorjur', function () {
+    return view('user.mentorjur');
+})->name('mentorjur');
+
 Route::get('/profil', function () {
     return view('user.profil');
 })->name('profil');

@@ -12,16 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('histories', function (Blueprint $table) {
-            $table->id('id_history');
-            $table->unsignedBigInteger('id_user');
+            $table->id();
+            $table->foreignId('fk_user')->constrained('users')->onDelete('cascade');
             $table->string('page_url');
             $table->string('page_title');
             $table->timestamps();
-        
-            // Perbaiki deklarasi foreign key
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
-        
+
     }
 
     /**

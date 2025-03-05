@@ -8,7 +8,7 @@
         @include('layouts.navbar.searchM')
     </div>
 
-    <div class="grid pt-4 h-48 grid-cols-2 place-content-stretch gap-20 ...">
+    <div class="grid h-48 grid-cols-2 pt-4 place-content-stretch gap-20 ...">
         <div class="flex flex-col p-4 mx-3 bg-card rounded-2xl hover:shadow-sm hover:shadow-shadow border-shadow border-2">
             <div class="flex flex-row  ">
                 <img src="{{ asset('images/adhi.jpg') }}" class="rounded-full w-20 h-20" alt="">
@@ -28,8 +28,8 @@
             <div class="flex flex-row  ">
                 <img src="{{ asset('images/adhi.jpg') }}" class="rounded-full w-20 h-20" alt="">
                 <div class="flex flex-col">
-                    <p class="text-lg px-3 py-0 pt-2 font-bold">Rahma Shinta</p>
-                    <p class="text-lg px-3 text-center font-semibold">Broadcasting</p>
+                    <p class="text-lg px-3 py-0 pt-2 font-bold">Mustika Dewi</p>
+                    <p class="text-lg px-3 text-center font-semibold">IT Software</p>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none" class="ml-auto">
                     <rect width="39" height="39" rx="19.5" fill="#05415F"/>

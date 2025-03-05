@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('soals', function (Blueprint $table) {
-            $table->id('id_soal');
+            $table->id();
             $table->string('judul');
             $table->text('pertanyaan');
             $table->string('pilihan1');
@@ -20,9 +20,8 @@ return new class extends Migration
             $table->string('pilihan3');
             $table->string('pilihan4');
             $table->string('correct');
+            $table->foreignId('fk_quiz')->constrained('quizzes')->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreignId('fk_quiz')->references('id_quiz')->on('quizzes')->onDelete('cascade');
         });
     }
 

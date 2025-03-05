@@ -12,18 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaksis', function (Blueprint $table) {
-            $table->id('id_transaksi');
+            $table->id(
+            );
             $table->unsignedBigInteger('id_user');
             $table->string('kd_order');
             $table->date('tanggal_beli');
             $table->date('tanggal_tenggat');
             $table->enum('paket', ['7days', '3month', '1year']);
             $table->timestamps();
-        
+
             // Perbaiki foreign key untuk mengacu ke id di tabel users
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
-        
+
     }
 
     /**

@@ -22,7 +22,7 @@
             </div>
             <div class="flex flex-row items-center justify-center">
                 <x-label for="password"  class="text-white  text-[20px]" value="{{ __('Password') }}" />
-                <x-input id="password" class="block my-3 w-full h-8 ml-3" type="password" name="password" required autocomplete="current-password" />
+                <x-input id="password" class="block my-3 w-full h-8 ml-5" type="password" name="password" required autocomplete="current-password" />
             </div>
 
 

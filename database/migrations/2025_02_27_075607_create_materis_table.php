@@ -12,13 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('materis', function (Blueprint $table) {
-            $table->id('id_materi');
+            $table->id();
             $table->string('judul');
             $table->string('path');
-            $table->unsignedBigInteger('fk_cover'); 
+            $table->foreignId('fk_cover')->constrained('covers')->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreign('fk_cover')->references('id_cover')->on('covers')->onDelete('cascade');
         });
     }
 
