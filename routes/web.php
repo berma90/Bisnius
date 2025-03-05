@@ -18,3 +18,11 @@ Route::get('/mentor', function () {
 Route::get('/profil', function () {
     return view('user.profil');
 })->name('profil');
+
+Route::get('/classuniversal', function () {
+    return view('user.classuniversal');
+})->name('classuniversal');
+
+Route::get('/buypremium', function () {
+    return view('user.buypremium');
+})->name('buypremium');
