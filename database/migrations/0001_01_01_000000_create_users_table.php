@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('jurusan');
+            $table->string('jurusan')->nullable();
             $table->string('no_telepon')->nullable();
             $table->date('tgl_lahir')->nullable();
             $table->string('pendidikan_terakhir')->nullable();
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();
-        
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan','tidak ingin mengungkapkan'])->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+
             $table->timestamps();
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

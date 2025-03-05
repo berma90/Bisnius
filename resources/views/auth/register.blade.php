@@ -1,35 +1,39 @@
 <x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+    <div class="min-h-screen flex items-center justify-center bg-cover bg-center px-4"
+        style="background-image: url('{{ asset('images/bg-login.png') }}');">
 
-        <x-validation-errors class="mb-4" />
+        <div class="bg-primary50 bg-opacity-90 px-10 py-8 w-full max-w-md shadow-md rounded-2xl sm:rounded-lg">
+            
+            <p class="text-white text-3xl font-bold text-center mb-6">Register</p>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
 
-            <div>
-                <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
+                <div class="mb-4">
+                    <x-label for="name" class="text-white text-lg" value="Name" />
+                    <x-input id="name" class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md" 
+                        type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                </div>
 
-            <div class="mt-4">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            </div>
+                <div class="mb-4">
+                    <x-label for="email" class="text-white text-lg" value="Email" />
+                    <x-input id="email" class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md" 
+                        type="email" name="email" :value="old('email')" required autocomplete="username" />
+                </div>
 
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
+                <div class="mb-4">
+                    <x-label for="password" class="text-white text-lg" value="Password" />
+                    <x-input id="password" class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md" 
+                        type="password" name="password" required autocomplete="new-password" />
+                </div>
 
-            <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
+                <div class="mb-6">
+                    <x-label for="password_confirmation" class="text-white text-lg" value="Confirm Password" />
+                    <x-input id="password_confirmation" class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md" 
+                        type="password" name="password_confirmation" required autocomplete="new-password" />
+                </div>
 
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+                @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">
                         <div class="flex items-center">
@@ -46,15 +50,18 @@
                 </div>
             @endif
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+                <div class="flex justify-end">
+                    <x-button class="w-22 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md">
+                        Create
+                    </x-button>
+                </div>
+            </form>
 
-                <x-button class="ms-4">
-                    {{ __('Register') }}
-                </x-button>
+            <div class="text-center mt-6">
+                <p class="text-white font-semibold text-lg">Already Have an Account?</p>
+                <a href="/login" class="text-white text-sm hover:underline">Login Now</a>
             </div>
-        </form>
-    </x-authentication-card>
+
+        </div>
+    </div>
 </x-guest-layout>

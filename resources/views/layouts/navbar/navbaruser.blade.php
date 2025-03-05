@@ -64,7 +64,7 @@
             <div class="hidden md:flex space-x-4">
                 <a href="{{ route('login') }}"
                     class="px-4 py-2 border border-primary50 text-primary50 rounded-full transition font-medium
-                    hover:bg-primary50 hover:text-white ">
+                    hover:bg-primary50 hover:!text-white ">
                     Sign In
                 </a>
                 <a href="{{ route('register') }}"

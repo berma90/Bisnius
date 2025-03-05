@@ -14,10 +14,13 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                poppins:['Neue', ],
+                sans: ['Neue','Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary50: '#05415F !important'
+                primary50: '#05415F !important',
+                card: '#F8F7F7 !important',
+                shadow: '#2F8CE3 !important',
             },
         },
     },
