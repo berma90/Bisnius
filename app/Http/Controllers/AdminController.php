@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Mentor;
-use App\Models\Jurusan;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Jurusan;
+use App\Models\Mentor;
 
 class AdminController extends Controller
 {
+    public function index()
+    {
+        return view('admin.user.user');
+    }
+
+
     public function dataUser()
     {
         $user = User::all(); // Ambil semua data user
-        return view('admin.user.user', compact('user'));
+        return view('admin.user.data', compact('user'));
     }
 
     public function edit($id)
@@ -59,10 +64,6 @@ class AdminController extends Controller
             'foto' => $fotoPath,
         ]);
 
-        return redirect()->route('mentor.create')->with('success', 'Mentor berhasil ditambahkan!');
-    }
-
-    public function create() {
-
+        return redirect()->route('admin.mentor')->with('success', 'Mentor berhasil ditambahkan!');
     }
 }

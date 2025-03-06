@@ -1,4 +1,4 @@
-@extends('layouts.navbar.sidebaradm')
+@extends('layouts.navbar.sidebar')
 
 @section('title', 'Tambah-Mentor')
 
