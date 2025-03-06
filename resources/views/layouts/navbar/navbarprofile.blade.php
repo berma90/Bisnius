@@ -62,15 +62,13 @@
 
             {{-- Login Buttons --}}
             <div class="hidden md:flex space-x-4">
-                <a href="{{ route('login') }}"
-                    class="px-4 py-2 border border-primary50 text-primary50 rounded-full transition font-medium
-                    hover:bg-primary50 hover:!text-white ">
-                    Sign In
-                </a>
-                <a href="{{ route('register') }}"
-                    class="px-4 py-2 bg-primary50 text-white rounded-full transition font-medium
-                    hover:bg-primary50/80">
-                    Sign Up
+                <a href="{{ route('user.profileU') }}"
+                    class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64" fill="none">
+                        <path opacity="0.4" d="M31.5 58.2762C45.9975 58.2762 57.75 46.5237 57.75 32.0262C57.75 17.5288 45.9975 5.77625 31.5 5.77625C17.0025 5.77625 5.25 17.5288 5.25 32.0262C5.25 46.5237 17.0025 58.2762 31.5 58.2762Z" fill="#292D32"/>
+                        <path d="M31.5 18.7175C26.0663 18.7175 21.6562 23.1275 21.6562 28.5613C21.6562 33.89 25.83 38.2213 31.3687 38.3788C31.4475 38.3788 31.5525 38.3788 31.605 38.3788C31.6575 38.3788 31.7362 38.3788 31.7887 38.3788C31.815 38.3788 31.8413 38.3788 31.8413 38.3788C37.1438 38.195 41.3175 33.89 41.3438 28.5613C41.3438 23.1275 36.9338 18.7175 31.5 18.7175Z" fill="#05415F"/>
+                        <path d="M49.2975 51.32C44.625 55.625 38.3775 58.2763 31.5 58.2763C24.6225 58.2763 18.375 55.625 13.7025 51.32C14.3325 48.9313 16.0388 46.7525 18.5325 45.0725C25.6988 40.295 37.3538 40.295 44.4675 45.0725C46.9875 46.7525 48.6675 48.9313 49.2975 51.32Z" fill="#05415F"/>
+                    </svg>
                 </a>
             </div>
         </div>

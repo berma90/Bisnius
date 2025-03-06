@@ -30,6 +30,7 @@ class OauthController extends Controller
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
+                    'jurusan' => $request->jurusan ?? null,
                     'gauth_id'=> $user->id,
                     'gauth_type'=> 'google',
                     'password' => encrypt('admin@123')
