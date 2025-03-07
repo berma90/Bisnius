@@ -21,13 +21,14 @@ return new class extends Migration
             $table->date('tgl_lahir')->nullable();
             $table->string('pendidikan_terakhir')->nullable();
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan','tidak ingin mengungkapkan'])->nullable();
+            $table->string('role')->nullable();
             $table->timestamp('email_verified_at')->nullable();
 
             $table->timestamps();
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
-           
+
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

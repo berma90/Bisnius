@@ -19,8 +19,8 @@
     </div>
     <div class="flex flex-col">
         
-        <p class="flex text-white text-2xl ml-8 mb-1">{{ Auth::user()->name }}</p>
-        <p class="flex text-white text-xl ml-8 mb-1">-</p>
+        <p class="flex text-white text-2xl ml-8 mb-1 font-semibold">{{ Auth::user()->name }}</p>
+        <p class="flex text-white text-xl ml-8 mb-1">{{ Auth::user()->jurusan }}</p>
     </div>
 </div>
     <div class="hidden md:flex space-x-6 mx-5 mt-2">

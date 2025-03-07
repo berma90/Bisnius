@@ -12,16 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('quizzes', function (Blueprint $table) {
-            $table->id('id_quiz');
+            $table->id();
             $table->string('judul');
             $table->string('kategori');
+            $table->foreignId('fk_mentor')->constrained('mentors')->onDelete('cascade');
             $table->timestamps();
-        
-            $table->unsignedBigInteger('fk_mentor'); 
-            $table->foreign('fk_mentor')->references('id_mentor')->on('mentors')->onDelete('cascade');
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

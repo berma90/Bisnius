@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('covers', function (Blueprint $table) {
-            $table->id('id_cover');
+            $table->id();
             $table->string('judul');
             $table->string('kategori');
             $table->string('thumbnail');
             $table->text('deskripsi');
             $table->string('mentor');
-            $table->foreignId('fk_mentor')->constrained('mentors', 'id_mentor')->onDelete('cascade');
+            $table->foreignId('fk_mentor')->constrained('mentors')->onDelete('cascade');
 
-            $table->foreignId('fk_jurusan')->constrained('jurusans', 'id_jurusan')->onDelete('cascade');
+            $table->foreignId('fk_jurusan')->constrained('jurusans')->onDelete('cascade');
             $table->timestamps();
         });
-        
+
     }
 
     /**

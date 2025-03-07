@@ -34,6 +34,7 @@ class User extends Authenticatable
         'tgl_lahir',
         'pendidikan_terakhir',
         'jenis_kelamin',
+        'role',
         'gauth_id', // tambahkan ini
         'gauth_type', // tambahkan ini
     ];

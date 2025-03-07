@@ -1,54 +1,51 @@
-@extends('layouts.navbar.navbaruser')
-
-@section('title', 'Home')
+@extends('layouts.navbar.navbarprofile')
 
 @section('content')
-<div class="container mx-auto p-6">
-    <!-- Judul Center -->
-    <h1 class="text-5xl font-extrabold text-center mb-10">UPGRADE YOUR LICENSE NOW!!</h1>
+<div class="container mx-auto text-center py-10">
+    <h1 class="text-3xl font-bold">UPGRADE YOUR LICENSE NOW!!</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <!-- Paket 7 Days -->
-        <div class="bg-primary50 text-white px-10 py-16 rounded-2xl shadow-lg shadow-blue-400 relative h-[440px] flex flex-col">
-            <div class="absolute top-6 right-6 p-3 rounded-full">
-                <img src="img/crown.png" alt="Crown Icon" class="w-12 h-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        @foreach ([['7 DAYS', 250000], ['3 MONTH', 750000], ['1 YEAR', 1660000]] as $paket)
+        <div class=" bg-primary50 text-white p-6 rounded-lg shadow-lg">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold">{{ $paket[0] }}</h2>
+                <img src="img/crown.png" alt="Premium" class="w-6">
             </div>
-            <h2 class="text-3xl font-bold mt-16">7 DAYS</h2>
-            <p class="text-lg mt-4">Dapatkan akses menonton lebih luas dan ilmu bisnis yang bisa anda dapatkan dari mentor terkenal!</p>
-            <p class="text-4xl font-extrabold mt-6">Rp 250.000</p>
-            <div class="mt-8 text-center">
-                <button class="bg-blue-500 text-white px-8 py-3 rounded-full text-lg font-semibold">Beli Paket</button>
-            </div>
+            <p class="mt-2">Dapatkan akses menonton lebih luas dan ilmu bisnis yang bisa anda dapatkan dari mentor terkenal!</p>
+            <h3 class="text-2xl font-bold mt-4">Rp {{ number_format($paket[1], 0, ',', '.') }}</h3>
+            <button class="beli-paket bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4" 
+                    data-paket="{{ $paket[0] }}">
+                Beli Paket
+            </button>
         </div>
-
-        <!-- Paket 3 Month -->
-        <div class="bg-primary50 text-white px-10 py-16 rounded-2xl shadow-lg shadow-blue-400 relative h-[440px] flex flex-col">
-            <div class="absolute top-6 right-6 p-3 rounded-full">
-                <img src="img/crown.png" alt="Crown Icon" class="w-12 h-12">
-            </div>
-            <h2 class="text-3xl font-bold mt-16">3 MONTH</h2>
-            <p class="text-lg mt-4">Dapatkan akses menonton lebih luas dan ilmu bisnis yang bisa anda dapatkan dari mentor terkenal!</p>
-            <p class="text-4xl font-extrabold mt-6">Rp 750.000</p>
-            <div class="mt-8 text-center">
-                <button class="bg-blue-500 text-white px-8 py-3 rounded-full text-lg font-semibold">Beli Paket</button>
-            </div>
-        </div>
-
-        <!-- Paket 1 Year -->
-        <div class=" bg-primary50 text-white px-10 py-16 rounded-2xl shadow-lg shadow-blue-400 relative h-[440px] flex flex-col">
-            <div class="absolute top-6 right-6 p-3 rounded-full">
-                <img src="img/crown.png" alt="Crown Icon" class="w-12 h-12">
-            </div>
-            <h2 class="text-3xl font-bold mt-16">1 YEAR</h2>
-            <p class="text-lg mt-4">Dapatkan akses menonton lebih luas dan ilmu bisnis yang bisa anda dapatkan dari mentor terkenal!</p>
-            <p class="text-4xl font-extrabold mt-6">Rp 1.660.000</p>
-            <div class="mt-8 text-center">
-                <button class="bg-blue-500 text-white px-8 py-3 rounded-full text-lg font-semibold">Beli Paket</button>
-            </div>
-        </div>
+        @endforeach
     </div>
-
-    <!-- Footer Center -->
-    <p class="text-xl font-semibold mt-10 text-center">See Your Potential Now!</p>
 </div>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+<script>
+document.querySelectorAll(".beli-paket").forEach(button => {
+    button.addEventListener("click", function() {
+        let paket = this.getAttribute("data-paket");
+
+        fetch("{{ route('pay') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({ paket: paket })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                snap.pay(data.token);
+            } else {
+                alert("Gagal mendapatkan token pembayaran.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});
+</script>
 @endsection

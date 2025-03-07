@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mentors', function (Blueprint $table) {
-            $table->id('id_mentor');
+            $table->id();
             $table->string('nama_mentor');
             $table->text('chat')->nullable();
-            $table->string('profesi');
+            $table->foreignId('id_jurusan')->constrained('jurusans')->onDelete('cascade'); // Foreign key harus cocok dengan tabel 'jurusans'
+            $table->text('deskripsi')->nullable();
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
