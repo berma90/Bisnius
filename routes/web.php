@@ -84,6 +84,9 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/datamentor', [AdminController::class, 'dataMentor'])->name('admin.mentor');
     Route::get('/mentor/create', [AdminController::class, 'createMentor'])->name('mentor.create');
     Route::post('/mentor/store', [AdminController::class, 'storeMentor'])->name('mentor.store');
+    Route::get('/mentor/edit/{id}', [AdminController::class, 'editMentor'])->name('mentor.edit');
+    Route::put('/mntr/edit/{id}', [AdminController::class, 'updateMentor'])->name('mentor.update');
+    Route::delete('/mentor/{id}', [AdminController::class, 'mentorDestroy'])->name('mentor.destroy');
 
     Route::get('/datatransaksi', function () { return view('admin.transaksi'); })->name('admin.transaksi');
     Route::get('/datamateri', function () { return view('admin.materi.data'); })->name('admin.materi');
