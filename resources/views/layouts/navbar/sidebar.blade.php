@@ -7,8 +7,7 @@
     <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class=" flex bg-primary50">
-
+<body class=" bg-primary50 flex">
     <!-- Sidebar -->
     <div class="h-screen w-64 bg-netral50 text-black fixed flex flex-col shadow-lg shadow-slate-600">
         <!-- Logo -->

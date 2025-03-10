@@ -89,6 +89,23 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/mentor/{id}', [AdminController::class, 'mentorDestroy'])->name('mentor.destroy');
 
     Route::get('/datatransaksi', function () { return view('admin.transaksi'); })->name('admin.transaksi');
-    Route::get('/datamateri', function () { return view('admin.materi.data'); })->name('admin.materi');
+
+    Route::get('/manageM', function () { return view('admin.materi.manageM'); })->name('admin.manage');
+    Route::get('/editM', function () { return view('admin.materi.editM'); })->name('admin.editM');
+    Route::get('/editV', function () { return view('admin.materi.editV'); })->name('admin.editV');
+    Route::get('/tambahV', function () { return view('admin.materi.tambahV'); })->name('admin.tambahV');
+    Route::get('/addM', function () { return view('admin.materi.addM'); })->name('admin.addM');
+
+    Route::get('/video/create', [AdminController::class, 'tmbhV'])->name('video');
+    Route::post('/createV', [AdminController::class, 'createV'])->name('Cmateri.video');
+
+
+    Route::get('/Materi/create', [AdminController::class, 'tmbhM'])->name('Materi');
+    Route::post('/createM', [AdminController::class, 'createM'])->name('Ccover');
+
+    Route::get('/datamateri', [AdminController::class, 'indexi'])->name('admin.materi');
+    Route::get('/manageM/{id}', [AdminController::class, 'indexii'])->name('admin.manageM');
+
+
     Route::get('/dataquiz', function () { return view('admin.quiz.data'); })->name('admin.quiz');
 });
