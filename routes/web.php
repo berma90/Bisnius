@@ -91,14 +91,21 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/datatransaksi', function () { return view('admin.transaksi'); })->name('admin.transaksi');
 
     Route::get('/manageM', function () { return view('admin.materi.manageM'); })->name('admin.manage');
-    Route::get('/editM', function () { return view('admin.materi.editM'); })->name('admin.editM');
     Route::get('/editV', function () { return view('admin.materi.editV'); })->name('admin.editV');
     Route::get('/tambahV', function () { return view('admin.materi.tambahV'); })->name('admin.tambahV');
     Route::get('/addM', function () { return view('admin.materi.addM'); })->name('admin.addM');
 
+    
+    Route::get('/editM/{id}', [AdminController::class, 'editCover'])->name('admin.editM');
+    Route::put('/editM/update/{id}', [AdminController::class, 'updateM'])->name('admin.updateM');
+    Route::delete('/deleteM/{id}', [AdminController::class, 'deleteM'])->name('admin.deleteM');
+    
     Route::get('/video/create', [AdminController::class, 'tmbhV'])->name('video');
     Route::post('/createV', [AdminController::class, 'createV'])->name('Cmateri.video');
-
+    Route::get('/editV/{id}', [AdminController::class, 'editV'])->name('admin.editV');
+    Route::put('/editV/update/{id}', [AdminController::class, 'updateV'])->name('materi.updateV');
+    Route::delete('/deleteV/{id}', [AdminController::class, 'deleteV'])->name('materi.deleteV');
+    Route::delete('/deleteC/{id}', [AdminController::class, 'deleteC'])->name('admin.deleteC');
 
     Route::get('/Materi/create', [AdminController::class, 'tmbhM'])->name('Materi');
     Route::post('/createM', [AdminController::class, 'createM'])->name('Ccover');

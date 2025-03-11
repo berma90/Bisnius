@@ -14,7 +14,7 @@
 
 
 <div class="flex p-4">
-    <div class="bg-gray-300 rounded-xl w-full max-w-2xl p-6">
+    <div class="bg-netral50 rounded-xl w-full  p-6">
 
         <form method="POST" action="/createM" enctype="multipart/form-data">
             @csrf
