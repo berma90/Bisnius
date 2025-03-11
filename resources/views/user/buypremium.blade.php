@@ -1,6 +1,10 @@
 @extends('layouts.navbar.navbarprofile')
 
 @section('content')
+<script type="text/javascript"
+        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{config('midtrans.client_key')}}">
+</script>
 <div class="container mx-auto text-center py-10">
     <h1 class="text-3xl font-bold">UPGRADE YOUR LICENSE NOW!!</h1>
 
@@ -48,4 +52,5 @@ document.querySelectorAll(".beli-paket").forEach(button => {
     });
 });
 </script>
+
 @endsection

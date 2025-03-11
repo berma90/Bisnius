@@ -18,25 +18,33 @@
         </svg>
     </div>
     <div class="flex flex-col">
-        
-        <p class="flex text-white text-2xl ml-8 mb-1 font-semibold">{{ Auth::user()->name }}</p>
-        <p class="flex text-white text-xl ml-8 mb-1">{{ Auth::user()->jurusan }}</p>
+<div class="flex flex-col">
+    <p class="flex text-white text-2xl ml-8 mb-1 font-semibold">{{ Auth::user()->name }}</p>
+    <p class="flex text-white text-xl ml-8 mb-1">{{ Auth::user()->jurusan }}</p>
+
+    @if(Auth::user()->is_premium)
+        <p class="flex text-white text-lg ml-8 mb-1 font-semibold">Akun Premium</p>
+    @else
+        <p class="flex text-white text-lg ml-8 mb-1 font-semibold">Akun Free</p>
+    @endif
+</div>
+
     </div>
 </div>
     <div class="hidden md:flex space-x-6 mx-5 mt-2">
                 <a href="{{ route('profilC') }}"
                     class="px-4 py-2 rounded-full transition font-medium text-xl
-                    {{ Route::currentRouteName() == 'home' ? 'bg-primary50 text-white' : 'text-gray-700 hover:text-primary50 hover:text-white' }}">
+                    {{ Route::currentRouteName() == 'home' ? 'bg-primary50 text-white' : 'text-gray-700 hover:text-primary50' }}">
                     Class
                 </a>
                 <a href="{{ route('profilT') }}"
                     class="px-4 py-2 rounded-full transition font-medium text-xl
-                    {{ Route::currentRouteName() == 'class' ? 'bg-primary50 text-white' : 'text-gray-700 hover:text-primary50 hover:text-white' }}">
+                    {{ Route::currentRouteName() == 'class' ? 'bg-primary50 text-white' : 'text-gray-700 hover:text-primary50' }}">
                     Transaction
                 </a>
                 <a href="{{ route('profilA') }}"
                     class="px-4 py-2 rounded-full transition font-medium text-xl
-                    {{ Route::currentRouteName() == 'mentor' ? 'bg-primary50 text-white' : 'text-gray-700 hover:text-primary50 hover:text-white' }}">
+                    {{ Route::currentRouteName() == 'mentor' ? 'bg-primary50 text-white' : 'text-gray-700 hover:text-primary50' }}">
                     Appreciate
                 </a>
             </div>

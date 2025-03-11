@@ -7,10 +7,10 @@
     <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class=" bg-secondary10 flex">
+<body class=" flex bg-primary50">
 
     <!-- Sidebar -->
-    <div class="h-screen w-64 bg-gray-300 text-black fixed flex flex-col shadow-lg shadow-slate-600">
+    <div class="h-screen w-64 bg-netral50 text-black fixed flex flex-col shadow-lg shadow-slate-600">
         <!-- Logo -->
         <div class="p-5 mx-auto">
             <a href="{{ route('home') }}">
@@ -85,7 +85,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="ml-64 p-6 w-full">
+    <div class="ml-64 p-6 w-full bg-primary50">
         @yield('content')
     </div>
 
