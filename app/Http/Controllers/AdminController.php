@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cover;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Jurusan;
+use App\Models\Materi;
 use App\Models\Mentor;
 
 class AdminController extends Controller
@@ -20,6 +22,9 @@ class AdminController extends Controller
     {
         $user = User::all(); // Ambil semua data user
         return view('admin.user.data', compact('user'));
+    }
+    public function dataMateri()
+    {
     }
 
     public function edit($id)
@@ -126,4 +131,92 @@ class AdminController extends Controller
 
         return redirect()->route('admin.mentor')->with('warning', 'Mentor berhasil dihapus!');
     }
+    public function tmbhV(Request $request)
+    {
+        $cover= Cover::all();
+        return view('admin.materi.tambahV',compact('cover'));
+    }
+
+    public function createV(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'path' => 'required|url',
+            'fk_cover' => 'nullable|exists:jurusans,id',
+        ]);
+
+        // Simpan ke database
+        Materi::create([
+            'judul' => $request->judul,
+            'path' => $request->path,
+            'fk_cover' => $request->fk_cover
+        ]);
+
+        // Redirect dengan pesan sukses
+        return redirect()->back()->with('success', 'Video berhasil disimpan!');
+    }
+
+    public function tmbhM(Request $request)
+    {
+        $jurusan= Jurusan::all();
+        return view('admin.materi.addM',compact('jurusan'));
+    }
+    
+
+    public function createM(Request $request)
+    {
+        try {
+            $request->validate([
+                'judul' => 'required|string|max:255',
+                'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'deskripsi' => 'nullable|string',
+                'mentor' => 'required|string|max:255',
+                'fk_mentor' => 'nullable|exists:mentors,id',
+                'fk_jurusan' => 'nullable|exists:jurusans,id',
+            ]);
+
+            // Upload gambar jika ada
+            $thumbnailPath = null;
+            if ($request->hasFile('thumbnail')) {
+                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+            }
+
+            // Simpan ke database
+            $cover = Cover::create([
+                'judul' => $request->judul,
+                'thumbnail' => $thumbnailPath,
+                'deskripsi' => $request->deskripsi,
+                'mentor' => $request->mentor,
+                'fk_mentor' => $request->fk_mentor,
+                'fk_jurusan' => $request->fk_jurusan,
+            ]);
+
+            return redirect()->route('admin.materi')->with('success', 'Materi berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            dd($e->getMessage()); // Tampilkan error di browser
+        }
+    }
+
+    public function indexi()
+    {
+        $covers = Cover::with('jurusan')->get(); // Mengambil semua data dari tabel covers
+        return view('admin.materi.data', compact('covers'));
+    }
+    public function indexii($id)
+    {
+        // Cari data berdasarkan ID yang diklik
+        $coverz = Cover::find($id); 
+
+
+        // Jika tidak ditemukan, redirect dengan pesan error
+        if (!$coverz) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan!');
+        }
+
+        $materiV= Materi::all();
+
+        return view('admin.materi.manageM', compact('coverz', 'materiV'));
+    }
+
+    
 }

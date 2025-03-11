@@ -16,6 +16,7 @@
     <h1 class="text-3xl font-bold text-secondary10 text-center">DASHBOARD ADMIN</h1>
     <p class="mt-2 text-xl font-bold text-white">Data User</p>
 
+
     <div class="mt-4 overflow-x-auto overflow-hidden rounded-lg">
         <table class="w-full border-collapse border border-gray-300 bg-white shadow-md rounded-lg">
             <thead class="bg-gray-200">

@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('covers', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('kategori');
             $table->string('thumbnail');
             $table->text('deskripsi');
             $table->string('mentor');
-            $table->foreignId('fk_mentor')->constrained('mentors')->onDelete('cascade');
+            $table->foreignId('fk_mentor')->nullable()->constrained('mentors')->onDelete('cascade');
 
-            $table->foreignId('fk_jurusan')->constrained('jurusans')->onDelete('cascade');
+            $table->foreignId('fk_jurusan')->nullable()->constrained('jurusans')->onDelete('cascade');
             $table->timestamps();
         });
 

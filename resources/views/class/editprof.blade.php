@@ -34,10 +34,10 @@
             <div class="mt-4">
                 <label class="block text-gray-600">Jurusan</label>
                 <select id="jurusan" name="jurusan" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    <option value="tjkt" {{ old('jurusan', Auth::user()->jurusan) == 'tjkt' ? 'selected' : '' }}>Teknik Jaringan Komputer dan Telekomunikasi</option>
-                    <option value="dkv" {{ old('jurusan', Auth::user()->jurusan) == 'dkv' ? 'selected' : '' }}>Desain Komunikasi Visual</option>
-                    <option value="tkr" {{ old('jurusan', Auth::user()->jurusan) == 'tkr' ? 'selected' : '' }}>Teknik Kendaraan Ringan Otomotif</option>
-                    <option value="tpm" {{ old('jurusan', Auth::user()->jurusan) == 'tpm' ? 'selected' : '' }}>Teknik Pemesinan</option>
+                    <option value="Teknik Jaringan Komputer dan Telekomunikasi" {{ old('jurusan', Auth::user()->jurusan) == 'Teknik Jaringan Komputer dan Telekomunikasi' ? 'selected' : '' }}>Teknik Jaringan Komputer dan Telekomunikasi</option>
+                    <option value="Desain Komunikasi Visual" {{ old('jurusan', Auth::user()->jurusan) == 'Desain Komunikasi Visual' ? 'selected' : '' }}>Desain Komunikasi Visual</option>
+                    <option value="Teknik Kendaraan Ringan Otomotif" {{ old('jurusan', Auth::user()->jurusan) == 'Teknik Kendaraan Ringan Otomotif' ? 'selected' : '' }}>Teknik Kendaraan Ringan Otomotif</option>
+                    <option value="Teknik Pemesinan" {{ old('jurusan', Auth::user()->jurusan) == 'Teknik Pemesinan' ? 'selected' : '' }}>Teknik Pemesinan</option>
                 </select>
             </div>            
             <div class="mt-4">

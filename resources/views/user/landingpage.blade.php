@@ -1,10 +1,14 @@
+@extends('layouts.navbar.navbaruser')
+
 @section('title', 'Home')
 
+@section('navbar')
 @if(Auth::check())
     @include('layouts.navbar.navbarprofile') <!-- Navbar untuk user yang sudah login -->
 @else
     @include('layouts.navbar.navbaruser') <!-- Navbar untuk user yang belum login -->
 @endif
+@endsection
 
 
 @section('content')

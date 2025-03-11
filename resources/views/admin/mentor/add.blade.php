@@ -26,7 +26,7 @@
 
             <!-- Nama dan URL Telegram -->
             <div class=" mt-4 grid grid-cols-2">
-                <div class="w-[550px]">
+                <div class="w-auto mr-2">
                     <label class="block text-sm font-medium">Nama</label>
                     <input type="text" name="nama_mentor" class="w-full p-2 border rounded-md bg-transparent" required>
                 </div>
