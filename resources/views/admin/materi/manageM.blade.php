@@ -20,7 +20,7 @@
     </div>
 
     <div class="min-h-screen flex p-2">
-        <div class="bg-gray-300 rounded-xl w-full max-w-2xl p-4">
+        <div class="bg-gray-300 rounded-xl w-full  p-4">
             
             @if($coverz->count() > 0) 
             @if($coverz) 
@@ -43,7 +43,7 @@
                         <!-- Video Count -->
                         <div class="text-center">
                             <p class="text-sm text-gray-500">Video</p>
-                            <p class="text-lg font-bold">10</p>
+                            <p class="text-lg font-bold">{{ $jumlahMateri }}</p>
                         </div>
 
                         <!-- Mentor -->
@@ -54,10 +54,10 @@
 
                         <!-- Tombol Aksi -->
                         <div class="flex gap-2">
-                            <a href="">
+                            <a href="{{ route('admin.editM', ['id' => $coverz->id]) }}">
                                 <button class="bg-yellow-400 text-black px-3 py-1 rounded-md text-xs">Edit</button>
                             </a>
-                            <form action="" method="POST">
+                            <form action="{{ route('admin.deleteM', ['id' => $coverz->id]) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-md text-xs">Delete</button>
@@ -69,7 +69,7 @@
                 <p class="text-gray-500 text-center">Tidak ada data materi</p>
             @endif
 
-            <hr class="border-gray-500 w-[620px] mx-auto">
+            <hr class="border-gray-300 w-[620px] mx-auto">
 
 
             
@@ -78,7 +78,7 @@
                 @foreach ($materiV as $materi)
                 <div class="flex items-center bg-gray-300 rounded-lg p-3 mb-2">
                     <!-- Gambar -->
-                        <div class="w-16 h-16 bg-gray-400 rounded-md flex-shrink-0">
+                        <div class="w-16 h-16 bg-gray-300 rounded-md flex-shrink-0">
                             @if(!empty($coverz->thumbnail))
                                 <img src="{{ asset('storage/'.$coverz->thumbnail) }}" alt="Thumbnail" class="w-16 h-16 object-cover rounded-md">
                             @else
@@ -94,10 +94,14 @@
             
                         <!-- Tombol Aksi -->
                         <div class="flex gap-2">
-                            <a href="/editV">
+                            <a href="{{ route('admin.editV', ['id' => $materi->id]) }}">
                                 <button class="bg-yellow-400 text-black px-3 py-1 rounded-md text-xs">Edit</button>
                             </a>
-                            <button class="bg-red-500 text-white px-3 py-1 rounded-md text-xs">Delete</button>
+                            <form action="{{ route('materi.deleteV', ['id' => $materi->id]) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-red-500 text-white px-3 py-1 rounded-md text-xs">Delete</button>
+                            </form>
                         </div>
                     </div>
                 @endforeach

@@ -10,7 +10,6 @@
 @endif
 @endsection
 
-
 @section('content')
 {{-- intro --}}
 <div class="container mx-auto pt-10">

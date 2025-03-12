@@ -14,9 +14,9 @@
 
 
 <div class=" min-h-screen flex  p-4">
-    <div class="bg-gray-300 rounded-xl w-[600px] h-[340px] max-w-2xl p-6">
+    <div class="bg-netral50 rounded-xl w-full h-[300px]  p-6">
 
-        <form method="POST" action="/createV">
+        <form method="POST" action="/createV" enctype="multipart/form-data"> 
             @csrf
             <!-- Form -->
             <div class="space-y-4">
@@ -35,12 +35,12 @@
             <div class="flex justify-end mt-10">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">Simpan</button>
             </div>
+            @if(session('success'))
+            <div class="bg-green-500 w-[500px] text-white p-4 rounded-md mt-2">
+                {{ session('success') }}
+            </div>
+            @endif
         </form>
-        @if(session('success'))
-        <div class="bg-green-500 w-[500px] text-white p-4 rounded-md mt-2">
-            {{ session('success') }}
-        </div>
-        @endif
         
     </div>
 </div>

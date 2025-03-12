@@ -29,7 +29,7 @@
     
 
     <div class="p-4 flex">
-        <div class="bg-gray-300 p-6 rounded-lg w-full max-w-4xl">
+        <div class="bg-gray-300 p-6 rounded-lg w-full ">
             <!-- Item List -->
             <div class="space-y-4">
                 @foreach($covers as $cover)
@@ -56,7 +56,7 @@
                     <!-- Video Count -->
                     <div class="text-center">
                         <p class="text-sm text-gray-500">Video</p>
-                        <p class="text-lg font-bold">10</p>
+                        <p class="text-lg font-bold">{{ $jumlahMateri }}</p>
                     </div>
     
                     <!-- Mentor -->
@@ -70,7 +70,11 @@
                         <a href="{{ route('admin.manageM', ['id' => $cover->id]) }}">
                             <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Manage</button>
                         </a>
+                        <form action="{{ route('admin.deleteC', ['id' => $cover->id]) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?');">
+                            @csrf
+                            @method('DELETE')
                         <button class="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
+                        </form>
                     </div>
                 </div>
 
