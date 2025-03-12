@@ -22,4 +22,8 @@ class Mentor extends Model
     {
         return $this->belongsTo(Jurusan::class, 'id_jurusan');
     }
+    public function cover()
+    {
+        return $this->hasMany(Cover::class, 'fk_mentor');
+    }
 }

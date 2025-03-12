@@ -9,8 +9,8 @@
 </head>
 <body>
 
-    <nav class="bg-white shadow-md">
-        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <nav class="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+        <div class="container mx-auto flex justify-between items-center py-2 px-6">
             {{-- Logo --}}
             <a href="{{ route('home') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="135" height="56" viewBox="0 0 135 56" fill="none">

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->string('path');
-            $table->foreignId('fk_cover')->nullable()->constrained('covers')->onDelete('cascade');
+            $table->foreignId('fk_cover')->constrained('covers')->onDelete('cascade');
             
             $table->timestamps();
         });

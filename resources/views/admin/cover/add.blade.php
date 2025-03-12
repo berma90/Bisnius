@@ -16,7 +16,7 @@
 <div class="flex p-4">
     <div class="bg-netral50 rounded-xl w-full  p-6">
 
-        <form method="POST" action="/createM" enctype="multipart/form-data">
+        <form method="POST" action="{{route('cover.store')}}" enctype="multipart/form-data">
             @csrf
         <!-- Form -->
         <div class="space-y-4">
@@ -48,10 +48,11 @@
             <!-- Dropdown Nama Mentor -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nama Mentor</label>
-                <select id="mentor" name="mentor" class="w-full border border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option>Pilih Mentor</option>
-                    <option>Adhi S</option>
-                    <option>Budi R</option>
+                <select id="mentor" name="fk_mentor" class="w-full border border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>Pilih Kategori</option>
+                    @foreach($mentor as $mentors)
+                        <option value="{{ $mentors->id }}">{{ $mentors->nama_mentor }}</option>
+                    @endforeach
                 </select>
             </div>
 

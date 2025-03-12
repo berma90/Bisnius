@@ -16,10 +16,8 @@ return new class extends Migration
             $table->string('judul');
             $table->string('thumbnail');
             $table->text('deskripsi');
-            $table->string('mentor');
-            $table->foreignId('fk_mentor')->nullable()->constrained('mentors')->onDelete('cascade');
-
-            $table->foreignId('fk_jurusan')->nullable()->constrained('jurusans')->onDelete('cascade');
+            $table->foreignId('fk_mentor')->constrained('mentors')->onDelete('cascade');
+            $table->foreignId('fk_jurusan')->constrained('jurusans')->onDelete('cascade');
             $table->timestamps();
         });
 

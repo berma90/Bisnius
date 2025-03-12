@@ -29,22 +29,23 @@
         </div>
     </div>
 
-    <div class="hidden md:flex space-x-6 mx-5 mt-2">
+    <div class="flex space-x-6 mx-5 mt-2">
         <a href="{{ route('profilC') }}"
             class="px-4 py-2 rounded-full transition font-medium text-xl
-            {{ Route::currentRouteName() == 'profilC' ? 'text-primary50' : 'text-gray-700 hover:text-primary50 hover:text-white' }}">
+            {{ Route::currentRouteName() == 'profilC' ? 'text-primary50' : 'text-gray-700 hover:text-primary50' }}">
             Class
         </a>
         <a href="{{ route('profilT') }}"
             class="px-4 py-2 rounded-full transition font-medium text-xl
-            {{ Route::currentRouteName() == 'profilT' ? 'text-primary50' : 'text-gray-700 hover:text-primary50 hover:text-white' }}">
+            {{ Route::currentRouteName() == 'profilT' ? 'text-primary50' : 'text-gray-700 hover:text-primary50' }}">
             Transaction
         </a>
         <a href="{{ route('profilA') }}"
             class="px-4 py-2 rounded-full transition font-medium text-xl
-            {{ Route::currentRouteName() == 'profilA' ? 'text-primary50' : 'text-gray-700 hover:text-primary50 hover:text-white' }}">
+            {{ Route::currentRouteName() == 'profilA' ? 'text-primary50' : 'text-gray-700 hover:text-primary50' }}">
             Appreciate
         </a>
     </div>
+    
 </body>
 </html>

@@ -7,10 +7,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="mt-20 pt-2">
 
-    <nav class="bg-white shadow-md">
-        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <nav class="fixed top-0 left-0 w-full bg-white shadow-md  z-50">
+        <div class="container mx-auto flex justify-between items-center py-2 px-6">
             {{-- Logo --}}
             <a href="{{ route('home') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="135" height="56" viewBox="0 0 135 56" fill="none">

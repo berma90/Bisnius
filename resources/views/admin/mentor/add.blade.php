@@ -28,12 +28,12 @@
             <div class=" mt-4 grid grid-cols-2">
                 <div class="w-auto mr-2">
                     <label class="block text-sm font-medium">Nama</label>
-                    <input type="text" name="nama_mentor" class="w-full p-2 border rounded-md bg-transparent" required>
+                    <input type="text" id="nama_mentor" name="nama_mentor" class="w-full p-2 border rounded-md bg-transparent" required>
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium">URL Tele</label>
-                    <input type="text" name="chat" class="w-full p-2 border rounded-md bg-transparent" required>
+                    <input type="text" id="chat" name="chat" class="w-full p-2 border rounded-md bg-transparent" required>
                 </div>
 
             </div>
@@ -41,7 +41,7 @@
             <!-- Kategori -->
             <div class="mt-4">
                 <label class="block text-sm font-medium">Kategori</label>
-                <select name="id_jurusan" class="w-full p-2 border rounded-md bg-transparent">
+                <select id="id_jurusan" name="id_jurusan" class="w-full p-2 border rounded-md bg-transparent">
                     <option value="">Pilih Kategori</option>
                     @foreach ($jurusan as $jrs)
                         <option value="{{ $jrs->id }}">{{ $jrs->jurusan }}</option>
@@ -52,7 +52,7 @@
             <!-- Deskripsi -->
             <div class="mt-4">
                 <label class="block text-sm font-medium">Deskripsi</label>
-                <textarea name="deskripsi" class="w-full p-2 border rounded-md h-24 bg-transparent" required></textarea>
+                <textarea name="deskripsi" id="deskripsi" class="w-full p-2 border rounded-md h-24 bg-transparent" required></textarea>
             </div>
 
             <!-- Tombol Simpan -->

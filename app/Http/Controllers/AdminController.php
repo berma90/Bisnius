@@ -126,48 +126,44 @@ class AdminController extends Controller
 
         return redirect()->route('admin.mentor')->with('warning', 'Mentor berhasil dihapus!');
     }
-    public function tmbhV(Request $request)
+    public function createMateri($id)
     {
-        $cover= Cover::all();
-        return view('admin.materi.tambahV',compact('cover'));
+        $cover= Cover::findOrFail($id);
+        return view('admin.materi.add',compact('cover', 'id'));
     }
 
-    public function createV(Request $request)
+    public function storeMateri(Request $request, $id)
     {
         $request->validate([
         'judul' => 'required|string|max:255',
-        'path' => 'required|url',
-        'fk_cover' => 'required|exists:covers,id', // Pastikan cover valid
-    ]);
+        'path' => 'required|url', // Pastikan cover valid
+        ]);
 
-        $materi = new Materi();
-        $materi->judul = $request->judul;
-        $materi->path = $request->path;
-        $materi->fk_cover = $request->fk_cover;
-
-        if ($materi->save()) {
-            return redirect()->back()->with('success', 'Video berhasil disimpan!');
-        } else {
-            return redirect()->back()->with('error', 'Gagal menyimpan data!');
-        }
+        Materi::create([
+            'judul' => $request->judul,
+            'path' => $request->path,
+            'fk_cover' => $id,
+        ]);
+        
+        return redirect()->route('admin.materi',['id'=>$id])->with('success', 'Video berhasil disimpan!');
     }
 
 
-    public function tmbhM(Request $request)
+    public function createCover(Request $request)
     {
         $jurusan= Jurusan::all();
-        return view('admin.materi.addM',compact('jurusan'));
+        $mentor = Mentor::all();
+        return view('admin.cover.add',compact('jurusan','mentor'));
     }
     
 
-    public function createM(Request $request)
+    public function storeCover(Request $request)
     {
         try {
             $request->validate([
                 'judul' => 'required|string|max:255',
                 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'deskripsi' => 'nullable|string',
-                'mentor' => 'required|string|max:255',
                 'fk_mentor' => 'nullable|exists:mentors,id',
                 'fk_jurusan' => 'nullable|exists:jurusans,id',
             ]);
@@ -179,17 +175,16 @@ class AdminController extends Controller
             }
 
             // Simpan ke database
-            $cover = Cover::create([
+            Cover::create([
                 'judul' => $request->judul,
                 'thumbnail' => $thumbnailPath,
                 'deskripsi' => $request->deskripsi,
-                'mentor' => $request->mentor,
                 'fk_mentor' => $request->fk_mentor,
                 'fk_jurusan' => $request->fk_jurusan,
             ]);
             
 
-            return redirect()->route('admin.materi')->with('success', 'Materi berhasil ditambahkan!');
+            return redirect()->route('admin.cover')->with('success', 'Materi berhasil ditambahkan!');
         } catch (\Exception $e) {
             dd($e->getMessage()); // Tampilkan error di browser
         }
@@ -253,6 +248,7 @@ class AdminController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'path' => 'required|url',
+            'fk_cover' => 'required|exists:covers,id',
         ]);
 
         // Ambil data berdasarkan ID
@@ -262,6 +258,7 @@ class AdminController extends Controller
         $materis->update([
             'judul' => $request->judul,
             'path' => $request->path,
+            'fk_cover' => $request->fk_cover,
         ]);
 
         return redirect()->route('admin.manageM', ['id' => $id])->with('success', 'Materi berhasil diperbarui!');
@@ -291,7 +288,7 @@ class AdminController extends Controller
         return redirect()->route('admin.manageM',$id)->with('success', 'Materi berhasil dihapus!');
     }
 
-    public function deleteC($id)
+    public function deleteCover($id)
     {
         // Debug ID sebelum query
         if (!$id) {
@@ -310,31 +307,32 @@ class AdminController extends Controller
         $cover->delete();
 
         // Redirect tanpa ID
-        return redirect()->route('admin.materi')->with('success', 'Cover berhasil dihapus!');
+        return redirect()->route('admin.cover')->with('success', 'Cover berhasil dihapus!');
     }
 
 
-    public function indexi()
+    public function dataCover()
     {
-        $covers = Cover::with('jurusan')->get(); // Mengambil semua data dari tabel covers
-        $jumlahMateri = Materi::count();
-        return view('admin.materi.data', compact('covers','jumlahMateri'));
+        $covers = Cover::with('jurusan','materi','mentor')->get();
+        return view('admin.cover.data', compact('covers'));
     }
-    public function indexii($id)
+
+    public function dataMateri($id)
     {
         // Cari data berdasarkan ID yang diklik
-        $coverz = Cover::find($id); 
-        $jumlahMateri = Materi::count();
+        $cover = Cover::with('materi', 'jurusan')->findOrFail($id);
 
         // Jika tidak ditemukan, redirect dengan pesan error
-        if (!$coverz) {
+        if (!$cover) {
             return redirect()->back()->with('error', 'Data tidak ditemukan!');
         }
 
-        $materiV= Materi::all();
-
-        return view('admin.materi.manageM', compact('coverz', 'materiV','jumlahMateri'));
+        return view('admin.materi.data', compact('cover'));
     }
 
-    
+    public function seeMen(){
+        $mentors=Mentor::all();
+
+        return view('user.mentor', compact('mentors'));
+    }
 }

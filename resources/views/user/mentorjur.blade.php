@@ -1,4 +1,4 @@
-@extends('layouts.navbar.navbaruser')
+@extends('layouts.navbar.navbarprofile')
 
 
 @section('content')

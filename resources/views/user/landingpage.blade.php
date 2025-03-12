@@ -56,12 +56,12 @@
         <div class="border rounded-lg p-6 text-center shadow-md">
             <img src="img/iconbuku.png" alt="Class Universal" class="mx-auto h-12 mb-4">
             <h3 class="font-bold">Class Universal</h3>
-            <a href="classuniversal" class=" text-primary50">See Course</a>
+            <a href="/classuniversal" class=" text-primary50">See Course</a>
         </div>
         <div class="border rounded-lg p-6 text-center shadow-md">
             <img src="img/iconbuku.png" alt="Class Teknik Jaringan Komputer" class="mx-auto h-12 mb-4">
             <h3 class="font-bold">Class Teknik Jaringan Komputer</h3>
-            <a href="#" class="text-primary50">See Course</a>
+            <a href="/class-jur" class="text-primary50">See Course</a>
         </div>
         <div class="border rounded-lg p-6 text-center shadow-md">
             <img src="img/iconbuku.png" alt="Class Multimedia" class="mx-auto h-12 mb-4">
@@ -69,8 +69,9 @@
             <a href="#" class="text-primary50">See Course</a>
         </div>
     </div>
-    
-    <p class="text-center mt-6 text-primary50 font-bold cursor-pointer">See All Class</p>
+    <a href="/class">
+        <p class="text-center mt-6 text-primary50 font-bold cursor-pointer">See All Class</p>
+    </a>
     </div>
 </div>
 </div>

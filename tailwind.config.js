@@ -38,6 +38,7 @@ export default {
                 dark70: '#333333',
                 dark90: '#000000',
                 card: '#F8F7F7 !important',
+                shadow: '#2F8CE3'
             },
         },
     },

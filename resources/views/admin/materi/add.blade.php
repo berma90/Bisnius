@@ -16,7 +16,7 @@
 <div class=" min-h-screen flex  p-4">
     <div class="bg-netral50 rounded-xl w-full h-[300px]  p-6">
 
-        <form method="POST" action="/createV" enctype="multipart/form-data"> 
+        <form method="POST" action="{{route ('materi.store',$id) }}" enctype="multipart/form-data"> 
             @csrf
             <!-- Form -->
             <div class="space-y-4">

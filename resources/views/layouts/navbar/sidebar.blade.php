@@ -53,7 +53,7 @@
                         ['name' => 'Data User', 'route' => 'admin.user'],
                         ['name' => 'Data Mentor', 'route' => 'admin.mentor'],
                         ['name' => 'Transaksi User', 'route' => 'admin.transaksi'],
-                        ['name' => 'Data Materi', 'route' => 'admin.materi'],
+                        ['name' => 'Data Materi', 'route' => 'admin.cover'],
                         ['name' => 'Quiz', 'route' => 'admin.quiz'],
                     ];
                 @endphp

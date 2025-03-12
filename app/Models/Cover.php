@@ -23,8 +23,12 @@ class Cover extends Model
     {
         return $this->belongsTo(jurusan::class,'fk_jurusan');
     }
-    public function materis()
+    public function materi()
     {
         return $this->hasMany(Materi::class,'fk_cover');
+    }
+    public function mentor()
+    {
+        return $this->belongsTo(Mentor::class,'fk_mentor');
     }
 }

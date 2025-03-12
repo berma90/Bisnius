@@ -10,6 +10,7 @@ Route::get('/home', function () {
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OauthController;
+use App\Http\Controllers\SeeController;
 use App\Http\Controllers\transaksicontroller;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -18,9 +19,7 @@ Route::get('/class', function () {
     return view('user.class');
 })->name('class');
 
-Route::get('/mentor', function () {
-    return view('user.mentor');
-})->name('mentor');
+
 
 Route::get('/mentorjur', function () {
     return view('user.mentorjur');
@@ -53,6 +52,9 @@ Route::get('/profilA', function () {
 Route::get('/jur', function () {
     return view('user.class-jur');
 })->name('jur');
+Route::get('/univ', function () {
+    return view('user.class-univ');
+})->name('univ');
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/pay', [MidtransController::class, 'pay'])->name('pay');
@@ -66,8 +68,9 @@ Route::put('/profile/update', [ProfileController::class, 'update'])->name('profi
 Route::get('/dtdiri', function () {return view('class.dtdiri');})->name('dtdiri');
 Route::put('/profile/updatedtr', [ProfileController::class, 'updatedtr'])->name('profile.updatedtr');
 
-
 Route::get('/profileU', [ProfileController::class, 'profile'])->name('user.profileU');
+
+Route::get('/mentor', [SeeController::class, 'seeMen'])->name('mentor');
 
 
 
@@ -126,18 +129,18 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/editM/update/{id}', [AdminController::class, 'updateM'])->name('admin.updateM');
     Route::delete('/deleteM/{id}', [AdminController::class, 'deleteM'])->name('admin.deleteM');
     
-    Route::get('/video/create', [AdminController::class, 'tmbhV'])->name('video');
-    Route::post('/createV', [AdminController::class, 'createV'])->name('Cmateri.video');
+    Route::get('/video/create/{id}', [AdminController::class, 'createMateri'])->name('video');
+    Route::post('/createV/{id}', [AdminController::class, 'storeMateri'])->name('materi.store');
     Route::get('/editV/{id}', [AdminController::class, 'editV'])->name('admin.editV');
     Route::put('/editV/update/{id}', [AdminController::class, 'updateV'])->name('materi.updateV');
     Route::delete('/deleteV/{id}', [AdminController::class, 'deleteV'])->name('materi.deleteV');
-    Route::delete('/deleteC/{id}', [AdminController::class, 'deleteC'])->name('admin.deleteC');
+    Route::delete('/deleteC/{id}', [AdminController::class, 'deleteCover'])->name('cover.delete');
 
-    Route::get('/Materi/create', [AdminController::class, 'tmbhM'])->name('Materi');
-    Route::post('/createM', [AdminController::class, 'createM'])->name('Ccover');
+    Route::get('/Materi/create', [AdminController::class, 'createCover'])->name('cover.create');
+    Route::post('/createM', [AdminController::class, 'storeCover'])->name('cover.store');
 
-    Route::get('/datamateri', [AdminController::class, 'indexi'])->name('admin.materi');
-    Route::get('/manageM/{id}', [AdminController::class, 'indexii'])->name('admin.manageM');
+    Route::get('/datamateri', [AdminController::class, 'dataCover'])->name('admin.cover');
+    Route::get('/manageM/{id}', [AdminController::class, 'dataMateri'])->name('admin.materi');
 
 
     Route::get('/dataquiz', function () { return view('admin.quiz.data'); })->name('admin.quiz');
