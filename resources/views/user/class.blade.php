@@ -1,85 +1,37 @@
-@extends('layouts.navbar.navbarprofile')
+@extends(Auth::check() ? 'layouts.navbar.navbarprofile' : 'layouts.navbar.navbaruser')
 
 @section('content')
-    <div class="w-full">
-        <!-- Search Bar -->
-        <div class="w-full">
-            @include('layouts.navbar.search')
-        </div>
+    @include('layouts.navbar.search')
 
+    <div class="container mx-auto px-4 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Daftar Cover</h2>
 
-        <p class="text-3xl font-bold m-4 p-2">Kelas Universal</p>
+        @if ($data->isEmpty())
+            <p class="text-gray-500 text-lg">Tidak ada data yang ditemukan.</p>
+        @else
+            @php
+                $groupedCovers = $data->groupBy('jurusan.jurusan');
+            @endphp
 
-        <div class="flex flex-row items-center">
-        <!-- Grid Container -->
-            <div class="mt-4 mb-3">
-                <div class="grid grid-cols-4 gap-3">
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md hover:scale-110 transition duration-200 flex flex-col ">
-                        <img src="{{ asset('images/class.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md hover:scale-110 transition duration-200 flex flex-col ">
-                        <img src="{{ asset('images/class.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md flex flex-col ">
-                        <img src="{{ asset('images/class.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md flex flex-col ">
-                        <img src="{{ asset('images/class.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>     
+            @foreach ($groupedCovers as $jurusan => $covers)
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">{{ $jurusan ?? 'Tanpa Jurusan' }}</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @foreach ($covers as $cover)
+                        <a href="{{ route('cover.show', $cover->id) }}" class="block">
+                            <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+                                <img src="{{ $cover->thumbnail ? asset('storage/' . $cover->thumbnail) : asset('images/default-cover.jpg') }}"
+                                     alt="{{ $cover->judul }}" class="w-full h-48 object-cover">
+
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold text-gray-800">{{ $cover->judul }}</h3>
+                                    <p class="text-gray-600 text-sm mt-1">From: {{ $cover->mentor->nama_mentor ?? 'Tidak tersedia' }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
-            </div>
-            <div class="flex items-center justify-center ml-4">
-                <a href="/univ" class="group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="p-1" width="56" height="56" viewBox="0 0 56 56" fill="none">
-                    <path d="M14 14L28 28L14 42M28 14L42 28L28 42" stroke="#05415F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                </a>
-            </div>
-        </div>
-        
-        <p class="text-3xl font-bold m-4 p-2">Teknik Komputer Jaringan</p>
-
-        <div class="flex flex-row items-center">
-        <!-- Grid Container -->
-            <div class="mt-4 mb-3">
-                <div class="grid grid-cols-4 gap-3">
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md  hover:scale-110 transition duration-200 flex flex-col ">
-                        <img src="{{ asset('images/jaringan.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md hover:scale-110 transition duration-200 flex flex-col ">
-                        <img src="{{ asset('images/jaringan.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md flex flex-col ">
-                        <img src="{{ asset('images/jaringan.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>
-                    <div class="p-4 mx-3 bg-card rounded-2xl shadow-shadow shadow-md flex flex-col ">
-                        <img src="{{ asset('images/jaringan.png') }}" alt="">
-                        <p class="text-lg px-4 text-center py-2">Apa yang dimaksud bisnis?</p>
-                        <p class="text-lg px-4 text-center">From: Adhi S.kom</p>
-                    </div>     
-                </div>
-            </div>
-            <div class="flex items-center justify-center ml-4">
-                <a href="/jur" class="group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="p-1" width="56" height="56" viewBox="0 0 56 56" fill="none">
-                    <path d="M14 14L28 28L14 42M28 14L42 28L28 42" stroke="#05415F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                </a>
-            </div>
-        </div>
+            @endforeach
+        @endif
     </div>
 @endsection

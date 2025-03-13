@@ -1,14 +1,6 @@
-@extends('layouts.navbar.navbaruser')
+@extends(Auth::check() ? 'layouts.navbar.navbarprofile' : 'layouts.navbar.navbaruser')
 
 @section('title', 'Home')
-
-@section('navbar')
-@if(Auth::check())
-    @include('layouts.navbar.navbarprofile') <!-- Navbar untuk user yang sudah login -->
-@else
-    @include('layouts.navbar.navbaruser') <!-- Navbar untuk user yang belum login -->
-@endif
-@endsection
 
 @section('content')
 {{-- intro --}}
@@ -50,7 +42,7 @@
             <img src="img/peoplemoney.png" alt="Bisnis Illustration" class="max-w-xs rounded-lg">
         </div>
     </div>
-    
+
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
         <div class="border rounded-lg p-6 text-center shadow-md">
@@ -139,9 +131,9 @@
 <footer class=" bg-primary50 text-white py-16 mt-20">
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
         <div>
-            <img src="img/logofooter.png" alt="Bisnius Logo" class="h-15 mb-4"> 
+            <img src="img/logofooter.png" alt="Bisnius Logo" class="h-15 mb-4">
             <div class="flex items-center">
-                <img src="img/location.png" alt="Location Icon" class="h-6 mr-2"> 
+                <img src="img/location.png" alt="Location Icon" class="h-6 mr-2">
                 <p>Jl. Dopang Raya No.131 Ds. Sidokerto, RT.3/RW.2, Ngagul, Winong, Kec. Pati, Kabupaten Pati, Jawa Tengah 59111.</p>
             </div>
             <h3 class="mt-4 font-bold text-xl">Sosial Media</h3>

@@ -3,24 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PaymentController;
-
-Route::get('/home', function () {
-    return view('user.landingpage');
-})->name('home');
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\SeeController;
 use App\Http\Controllers\transaksicontroller;
+use App\Http\Controllers\Classcontroller;
 use App\Http\Middleware\AdminMiddleware;
 
+Route::get('/home', function () {
+    return view('user.landingpage');
+})->name('home');
 
-Route::get('/class', function () {
-    return view('user.class');
-})->name('class');
-
-
+Route::get('/class', [ClassController::class, 'index'])->name('user.class');
+Route::get('/class/materi/{id}', [ClassController::class, 'materi'])->name('cover.show');
+Route::get('/quiz/{id}', [ClassController::class, 'quiz'])->name('quiz.show');
 
 Route::get('/mentorjur', function () {
     return view('user.mentorjur');
@@ -30,9 +27,6 @@ Route::get('/profil', function () {
     return view('user.profil');
 })->name('profil');
 
-Route::get('/classuniversal', function () {
-    return view('user.classuniversal');
-})->name('classuniversal');
 
 Route::get('/buypremium', function () {
     return view('user.buypremium');
@@ -90,7 +84,7 @@ Route::get('/download/{filename}', function ($filename) {
     })->name('home');
 
 
-Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');  
+Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');
 Route::get('oauth/google/callback', [\App\Http\Controllers\OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
 
 
@@ -113,17 +107,18 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/mntr/edit/{id}', [AdminController::class, 'updateMentor'])->name('mentor.update');
     Route::delete('/mentor/{id}', [AdminController::class, 'mentorDestroy'])->name('mentor.destroy');
 
+    Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
+
     Route::get('/manageM', function () { return view('admin.materi.manageM'); })->name('admin.manage');
     Route::get('/editV', function () { return view('admin.materi.editV'); })->name('admin.editV');
     Route::get('/tambahV', function () { return view('admin.materi.tambahV'); })->name('admin.tambahV');
     Route::get('/addM', function () { return view('admin.materi.addM'); })->name('admin.addM');
 
-    Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
 
     Route::get('/editM/{id}', [AdminController::class, 'editCover'])->name('admin.editM');
     Route::put('/editM/update/{id}', [AdminController::class, 'updateM'])->name('admin.updateM');
     Route::delete('/deleteM/{id}', [AdminController::class, 'deleteM'])->name('admin.deleteM');
-    
+
     Route::get('/video/create/{id}', [AdminController::class, 'createMateri'])->name('video');
     Route::post('/createV/{id}', [AdminController::class, 'storeMateri'])->name('materi.store');
     Route::get('/editV/{id}', [AdminController::class, 'editV'])->name('admin.editV');
@@ -137,6 +132,17 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/datamateri', [AdminController::class, 'dataCover'])->name('admin.cover');
     Route::get('/manageM/{id}', [AdminController::class, 'dataMateri'])->name('admin.materi');
 
+    Route::get('/dataquiz', [AdminController::class, 'dataQuiz'])->name('admin.quiz');
+    Route::get('/quiz/create', [AdminController::class, 'createQuiz'])->name('quiz.create');
+    Route::post('/quiz/store', [AdminController::class, 'storeQuiz'])->name('quiz.store');
+    Route::get('/quiz/edit/{id}', [AdminController::class, 'editQuiz'])->name('quiz.edit');
+    Route::post('/quiz/update/{id}', [AdminController::class, 'updateQuiz'])->name('quiz.update');
+    Route::delete('/quiz/delete/{id}', [AdminController::class, 'deleteQuiz'])->name('quiz.delete');
 
-    Route::get('/dataquiz', function () { return view('admin.quiz.data'); })->name('admin.quiz');
+    Route::get('/soal/{id}', [AdminController::class, 'dataSoal'])->name('admin.soal');
+    Route::get('/soal/create/{id}', [AdminController::class, 'createSoal'])->name('soal.create');
+    Route::post('/soal/store/{id}', [AdminController::class, 'storeSoal'])->name('soal.store');
+    Route::get('/soal/edit/{id}', [AdminController::class, 'editSoal'])->name('soal.edit');
+    Route::put('/soal/update/{id}', [AdminController::class, 'updateSoal'])->name('soal.update');
+    Route::delete('/soal/delete/{id}', [AdminController::class, 'deleteSoal'])->name('soal.delete');
 });

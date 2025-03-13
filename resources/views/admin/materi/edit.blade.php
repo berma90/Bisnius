@@ -8,8 +8,8 @@
     <!-- Kiri -->
     <div class="flex flex-row items-center gap-4">
         <p class="text-lg font-bold text-white">Edit Video Materi</p>
-        
-    </div> 
+
+    </div>
 </div>
 
 

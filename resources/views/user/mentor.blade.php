@@ -1,4 +1,4 @@
-@extends('layouts.navbar.navbarprofile')
+@extends(Auth::check() ? 'layouts.navbar.navbarprofile' : 'layouts.navbar.navbaruser')
 
 
 @section('content')

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube.com;">
     <title>Document</title>
 </head>
 <body>
@@ -23,7 +24,7 @@
             </svg>
         </div>
         <div class="flex flex-col">
-            
+
             <p class="flex text-white text-2xl ml-8 mb-1">{{ Auth::user()->name }}</p>
             <p class="flex text-white text-xl ml-8 mb-1">{{ Auth::user()->jurusan }}</p>
         </div>
@@ -46,6 +47,6 @@
             Appreciate
         </a>
     </div>
-    
+
 </body>
 </html>
