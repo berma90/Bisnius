@@ -84,15 +84,10 @@ Route::get('/download/{filename}', function ($filename) {
     return response()->download($path);
 })->name('download.image');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
+
     Route::get('/', function () {
         return view('user.landingpage');
     })->name('home');
-});
 
 
 Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');  
