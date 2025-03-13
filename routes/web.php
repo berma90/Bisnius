@@ -113,14 +113,13 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/mntr/edit/{id}', [AdminController::class, 'updateMentor'])->name('mentor.update');
     Route::delete('/mentor/{id}', [AdminController::class, 'mentorDestroy'])->name('mentor.destroy');
 
-    Route::get('/datatransaksi', function () { return view('admin.transaksi'); })->name('admin.transaksi');
-
     Route::get('/manageM', function () { return view('admin.materi.manageM'); })->name('admin.manage');
     Route::get('/editV', function () { return view('admin.materi.editV'); })->name('admin.editV');
     Route::get('/tambahV', function () { return view('admin.materi.tambahV'); })->name('admin.tambahV');
     Route::get('/addM', function () { return view('admin.materi.addM'); })->name('admin.addM');
 
-    
+    Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
+
     Route::get('/editM/{id}', [AdminController::class, 'editCover'])->name('admin.editM');
     Route::put('/editM/update/{id}', [AdminController::class, 'updateM'])->name('admin.updateM');
     Route::delete('/deleteM/{id}', [AdminController::class, 'deleteM'])->name('admin.deleteM');

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Jurusan;
 use App\Models\Materi;
 use App\Models\Mentor;
+use App\Models\Transaksi;
 
 class AdminController extends Controller
 {
@@ -334,5 +335,10 @@ class AdminController extends Controller
         $mentors=Mentor::all();
 
         return view('user.mentor', compact('mentors'));
+    }
+
+    public function transaksi() {
+        $transaksi = Transaksi::all(); // Ambil semua data dari tabel transaksi
+        return view('admin.transaksi', compact('transaksi')); // Kirim data ke view
     }
 }

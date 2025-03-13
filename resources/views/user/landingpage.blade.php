@@ -12,7 +12,7 @@
 
 @section('content')
 {{-- intro --}}
-<div class="container mx-auto pt-10">
+<div class="container mx-auto pt-20">
     <div class=" bg-primary50 text-white rounded-2xl p-10">
         <div class=" grid grid-cols-2  items-center">
             <div>
