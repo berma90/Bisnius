@@ -12,7 +12,8 @@ class MentorSeeder extends Seeder
 
     public function run(): void
     {
-        $tkj = DB::table('jurusans')->where('jurusan', 'TKJ')->first()->id;
+        $tkj = DB::table('jurusans')->where('jurusan', 'Teknik Jaringan Komputer dan Telekomunikasi')->first()->id;
+        $multimedia = DB::table('jurusans')->where('jurusan', 'TKJ')->first()->id;
 
         Mentor::create([
             'nama_mentor' => 'Laura Putri',
