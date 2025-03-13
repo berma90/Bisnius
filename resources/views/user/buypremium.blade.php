@@ -53,4 +53,12 @@ document.querySelectorAll(".beli-paket").forEach(button => {
 });
 </script>
 
+<script>
+    function redirectToClass() {
+    setTimeout(function () {
+        window.location.href = "/class-universal";
+    }, 3000);
+}
+</script>
+
 @endsection

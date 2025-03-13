@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/home', function () {
     return view('user.landingpage');
@@ -60,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pay', [MidtransController::class, 'pay'])->name('pay');
 });
 
-
+Route::post('/payment/callback', [PaymentController::class, 'handleCallback']);
 
 Route::get('/editprof', function () {return view('class.editprof');})->name('editprof');
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

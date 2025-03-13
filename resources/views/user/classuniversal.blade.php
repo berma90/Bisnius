@@ -2,6 +2,12 @@
 
 @section('title', 'Home')
 
+@if (session('success'))
+    <div class="bg-green-500 text-white p-3 rounded mb-4">
+        {{ session('success') }}
+    </div>
+@endif
+
 @section('content')
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-4">Materi pengenalan</h1>
@@ -17,7 +23,7 @@
             <div class="mt-4 p-4 border rounded-lg relative">
                 <h2 class="font-bold text-lg text-center">Deskripsi</h2>
                 <p id="video-description" class="text-gray-700 mt-2">
-                    Bisnis adalah kegiatan yang dilakukan individu atau organisasi untuk menghasilkan keuntungan dengan menyediakan barang atau jasa yang dibutuhkan oleh masyarakat. Bisnis dapat berbentuk usaha kecil, perusahaan besar, hingga korporasi multinasional.
+                    Bisnis adalah kegiatan yang dilakukan individu atau organisasi untuk menghasilkan keuntungan dengan menyediakan barang atau jasa yang dibutuhkan oleh masyarakat.
                 </p>
 
                 <!-- Forum Diskusi -->
@@ -31,12 +37,24 @@
         <!-- Sidebar Materi -->
         <div class="bg-white shadow-lg shadow-blue-400 rounded-lg p-4 border">
             <ul>
+                @php
+                    $isPremium = Auth::user() && Auth::user()->isPremium(); // Cek status premium user
+                @endphp
+
                 @for ($i = 1; $i <= 6; $i++)
                 <li class="flex items-center p-3 border-b justify-between">
                     <div class="flex items-center">
-                        <button onclick="changeVideo({{ $i }})">
-                            <img src="{{ $i == 1 ? 'img/button.png' : 'img/buttonlock.png' }}" alt="Button" class="w-12 h-8">
-                        </button>
+                        @if ($isPremium || $i == 1) 
+                            <!-- Jika user premium atau materi pertama, bisa diakses -->
+                            <button onclick="changeVideo({{ $i }})">
+                                <img src="img/button.png" alt="Button" class="w-12 h-8">
+                            </button>
+                        @else
+                            <!-- Jika bukan premium, materi dikunci -->
+                            <button onclick="showLockedAlert()">
+                                <img src="img/buttonlock.png" alt="Button" class="w-12 h-8">
+                            </button>
+                        @endif
                         <span class="ml-4 text-lg font-semibold text-gray-800">Materi {{ $i }}</span>
                     </div>
                 </li>
@@ -69,16 +87,21 @@
             6: {url: "https://www.youtube.com/embed/VIDEO_ID_6", description: "Strategi bisnis yang sukses ..."}
         };
 
-                if (materi === 1) {
+        if (videoData[materi]) {
             document.getElementById("video-frame").src = videoData[materi].url;
             document.getElementById("video-description").innerText = videoData[materi].description;
-        } else {
-            document.getElementById("alertModal").classList.remove("hidden");
         }
     }
 
-     function closeModal() {
+    function showLockedAlert() {
+        document.getElementById("alertModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
         document.getElementById("alertModal").classList.add("hidden");
     }
+
+
 </script>
+
 @endsection

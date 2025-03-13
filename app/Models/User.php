@@ -35,6 +35,7 @@ class User extends Authenticatable
         'pendidikan_terakhir',
         'jenis_kelamin',
         'role',
+        'is_premium',
         'gauth_id', // tambahkan ini
         'gauth_type', // tambahkan ini
     ];
@@ -71,5 +72,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Tambahkan metode isPremium
+    public function isPremium()
+    {
+        return $this->is_premium == 1; // Jika 1 (true), berarti premium
     }
 }
