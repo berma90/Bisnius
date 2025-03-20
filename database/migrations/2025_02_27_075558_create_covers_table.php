@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('covers', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
+            $table->string('judul')->unique();
             $table->string('thumbnail');
-            $table->text('deskripsi');
             $table->foreignId('fk_mentor')->constrained('mentors')->onDelete('cascade');
             $table->foreignId('fk_jurusan')->constrained('jurusans')->onDelete('cascade');
             $table->timestamps();

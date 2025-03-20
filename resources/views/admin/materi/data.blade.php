@@ -1,6 +1,6 @@
 @extends('layouts.navbar.sidebar')
 
-@section('title', 'Dashboard')
+@section('title', 'Data Materi')
 
 @section('content')
     <h1 class="text-2xl font-bold text-white text-center">DASHBOARD ADMIN</h1>
@@ -14,7 +14,6 @@
 
     <div class="max-h-screen flex p-2">
         <div class="bg-gray-300 rounded-xl w-full p-4 mb-4">
-
             @if($cover)
                 <div class="flex items-center p-4 border-b border-gray-400">
                     <!-- Thumbnail -->
@@ -62,8 +61,12 @@
 
             <hr class="border-gray-300 w-[620px] mx-auto">
 
+
+
+            <!-- Card 2 -->
             <!-- Card Materi dengan Scroll -->
             <div class="p-3">
+
                 <div class="bg-gray-300 rounded-lg p-3 mb-2 max-h-[380px] overflow-y-auto">
                     @if ($cover->materi->count() > 0)
                         @foreach ($cover->materi as $materi)
@@ -101,6 +104,7 @@
                     @endif
                 </div>
             </div>
+
 
         </div>
     </div>

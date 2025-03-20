@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\History;
+use App\Models\Transaksi;
+use App\Models\Sertifikat;
 
 class ProfileController extends Controller
 {
     public function profile()
     {
-        return view('user.profileU', ['user' => Auth::user()]);
+        $history = History::where('fk_user', Auth::id())
+            ->orderBy('viewed_at', 'desc')
+            ->take(3) // Ambil hanya 3 histori terbaru
+            ->get();
+
+        return view('user.profile', compact('history'));
     }
 
     public function update(Request $request)
@@ -60,6 +68,24 @@ class ProfileController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Data berhasil diperbarui!');
+    }
+
+    public function classHistory()
+    {
+        $history = History::where('fk_user', Auth::id())->with('cover.mentor')->get();
+        return view('user.history.class', compact('history'));
+    }
+
+    public function transactionHistory()
+    {
+        $transactions = Transaksi::where('id_user', Auth::id())->get();
+        return view('user.history.transaction', compact('transactions'));
+    }
+
+    public function appreciateHistory()
+    {
+        $certificates = Sertifikat::where('fk_user', Auth::id())->get();
+        return view('user.history.appreciate', compact('certificates'));
     }
 
 }

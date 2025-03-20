@@ -1,9 +1,14 @@
 @extends('layouts.navbar.sidebar')
 
-@section('title', 'Edit Materi')
+@section('title', 'Edit cover')
 
 @section('content')
-<h1 class="text-2xl font-bold text-white text-center">EDIT MATERI</h1>
+    @if (session('error'))
+        <div class=" bg-red-500 text-white p-3 rounded-md mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+<h1 class="text-2xl font-bold text-white text-center">EDIT COVER</h1>
 
 <div class="flex p-4">
     <div class="bg-netral50 rounded-xl w-full p-6">
@@ -62,11 +67,7 @@
                     </select>
                 </div>
 
-                <!-- Input Deskripsi -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                    <textarea name="deskripsi" class="w-full border border-gray-400 rounded-md p-2 h-24 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ $covers->deskripsi }}</textarea>
-                </div>
+                
             </div>
 
             <!-- Tombol Simpan -->

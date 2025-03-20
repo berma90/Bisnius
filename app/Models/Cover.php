@@ -14,7 +14,6 @@ class Cover extends Model
     protected $fillable = [
         'judul',
         'thumbnail',
-        'deskripsi',
         'mentor',
         'fk_mentor',
         'fk_jurusan'
@@ -30,5 +29,13 @@ class Cover extends Model
     public function mentor()
     {
         return $this->belongsTo(Mentor::class,'fk_mentor');
+    }
+    public function quiz()
+    {
+        return $this->hasMany(Quiz::class, 'fk_cover');
+    }
+    public function history()
+    {
+        return $this->hasMany(History::class, 'fk_cover');
     }
 }

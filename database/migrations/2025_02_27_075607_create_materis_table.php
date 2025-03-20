@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('materis', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
+            $table->string('judul')->unique();
             $table->string('path');
-            $table->foreignId('fk_cover')->constrained('covers')->onDelete('cascade');
-            
+            $table->text('deskripsi');
+            $table->foreignId('fk_cover')->nullable()->constrained('covers')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

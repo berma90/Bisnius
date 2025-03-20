@@ -6,10 +6,11 @@
     <h1 class="text-3xl font-bold text-secondary10 text-center">DASHBOARD ADMIN</h1>
     <p class="mt-2 text-xl font-bold text-white">Edit Mentor</p>
 
-    <div class="bg-netral50 p-6 rounded-xl mt-4">
-        <form action="{{ route('mentor.update', $mentor->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+    <form action="{{ route('mentor.update', $mentor->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+
+        <div class="bg-netral50 p-6 rounded-xl mt-4 flex flex-col relative">
             <!-- Foto Upload -->
             <div>
                 <label class="block text-sm font-medium">Foto</label>
@@ -60,11 +61,11 @@
             </div>
 
             <!-- Tombol Simpan -->
-            <div class="mt-4 flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Simpan Perubahan</button>
+            <div class="flex justify-end mt-4">
+                <button class="px-4 py-2 bg-secondary50 text-white rounded-full" type="submit">Simpan</button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 
     <script>
         document.getElementById('imageInput').addEventListener('change', function(event) {

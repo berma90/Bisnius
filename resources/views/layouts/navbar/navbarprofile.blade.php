@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube.com;">
+    <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube.com https://app.sandbox.midtrans.com;">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Bisnis')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -61,9 +62,8 @@
                 </a>
             </div>
 
-            {{-- Login Buttons --}}
             <div class="hidden md:flex space-x-4">
-                <a href="{{ route('user.profileU') }}"
+                <a href="{{ route('profilC') }}"
                     class="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64" fill="none">
                         <path opacity="0.4" d="M31.5 58.2762C45.9975 58.2762 57.75 46.5237 57.75 32.0262C57.75 17.5288 45.9975 5.77625 31.5 5.77625C17.0025 5.77625 5.25 17.5288 5.25 32.0262C5.25 46.5237 17.0025 58.2762 31.5 58.2762Z" fill="#292D32"/>
@@ -76,7 +76,7 @@
     </nav>
 
     {{-- Konten Halaman --}}
-    <div class="container mx-auto mt-4">
+    <div class="container">
         @yield('content')
     </div>
 </body>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cover;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Jurusan;
 use App\Models\Materi;
@@ -20,11 +21,13 @@ class AdminController extends Controller
         return view('admin.user.user');
     }
 
+
     public function dataUser()
     {
         $user = User::all(); // Ambil semua data user
         return view('admin.user.data', compact('user'));
     }
+
     public function edit($id)
     {
         $user = User::findOrFail($id); // Ambil data user berdasarkan ID
@@ -129,6 +132,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.mentor')->with('warning', 'Mentor berhasil dihapus!');
     }
+
     public function createMateri($id)
     {
         $cover= Cover::findOrFail($id);
@@ -137,20 +141,35 @@ class AdminController extends Controller
 
     public function storeMateri(Request $request, $id)
     {
+        // Validasi input dari form
         $request->validate([
-        'judul' => 'required|string|max:255',
-        'path' => 'required|url', // Pastikan cover valid
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'path' => 'required|url',
         ]);
 
+        // Cek apakah materi dengan judul yang sama sudah ada dalam fk_cover yang sama
+        if (Materi::where('judul', trim($request->judul))->where('fk_cover', $id)->exists()) {
+            return redirect()->back()->withInput()->with('error', 'Materi dengan judul tersebut sudah ada!');
+        }
+
+        // Simpan data materi baru
         Materi::create([
-            'judul' => $request->judul,
-            'path' => $request->path,
+            'judul' => trim($request->judul),
+            'deskripsi' => $request->deskripsi,
             'fk_cover' => $id,
+            'path' => $request->path,
         ]);
 
-        return redirect()->route('admin.materi',['id'=>$id])->with('success', 'Video berhasil disimpan!');
-    }
+        $materi = Materi::where('fk_cover', $id)->get();
+        $cover = Cover::find($id); // Ambil data cover terkait
 
+        return view('admin.materi.data', [
+            'materi' => $materi,
+            'cover' => $cover,
+            'success' => 'Video berhasil disimpan!'
+        ]);
+    }
 
     public function createCover(Request $request)
     {
@@ -162,35 +181,30 @@ class AdminController extends Controller
 
     public function storeCover(Request $request)
     {
-        try {
-            $request->validate([
-                'judul' => 'required|string|max:255',
-                'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'deskripsi' => 'nullable|string',
-                'fk_mentor' => 'nullable|exists:mentors,id',
-                'fk_jurusan' => 'nullable|exists:jurusans,id',
-            ]);
+        // Validasi input
+        $request->validate([
+            'judul' => 'required|string|max:255|unique:covers,judul',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 
-            // Upload gambar jika ada
-            $thumbnailPath = null;
-            if ($request->hasFile('thumbnail')) {
-                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-            }
+            'fk_mentor' => 'required|integer|exists:mentors,id',
+            'fk_jurusan' => 'required|integer|exists:jurusans,id',
+        ]);
 
-            // Simpan ke database
-            Cover::create([
-                'judul' => $request->judul,
-                'thumbnail' => $thumbnailPath,
-                'deskripsi' => $request->deskripsi,
-                'fk_mentor' => $request->fk_mentor,
-                'fk_jurusan' => $request->fk_jurusan,
-            ]);
+        // Simpan gambar jika diunggah
+        $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
 
+        // Simpan data cover baru
+        $cover = Cover::create([
+            'judul' => $request->judul,
+            'thumbnail' => $thumbnailPath,
+            'fk_mentor' => $request->fk_mentor,
+            'fk_jurusan' => $request->fk_jurusan,
+        ]);
 
-            return redirect()->route('admin.cover')->with('success', 'Materi berhasil ditambahkan!');
-        } catch (\Exception $e) {
-            dd($e->getMessage()); // Tampilkan error di browser
-        }
+        // Mengambil semua data covers untuk ditampilkan di view
+        $covers = Cover::with(['mentor', 'jurusan'])->get();
+
+        return view('admin.cover.data', compact('covers'))->with('success', 'Cover berhasil ditambahkan.');
     }
 
     public function editCover($id)
@@ -203,40 +217,56 @@ class AdminController extends Controller
 
     public function updateM(Request $request, $id)
     {
-        $covers = Cover::findOrFail($id);
+        try {
+            $cover = Cover::findOrFail($id);
 
-        // Validasi Input
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Tidak wajib diisi
-            'deskripsi' => 'required|string',
-            'fk_mentor' => 'required|exists:mentors,id',
-            'fk_jurusan' => 'required|exists:jurusans,id',
-        ]);
+            // Validasi input dari form
+            $request->validate([
+                'judul' => 'required|string|max:255',
+                'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Gambar opsional
 
-        if ($request->hasFile('thumbnail')) {
-            // Hapus foto lama jika ada
-            if ($covers->thumbnail && file_exists(public_path('storage/' . $covers->thumbnail))) {
-                unlink(public_path('storage/' . $covers->thumbnail));
+                'fk_mentor' => 'required|exists:mentors,id',
+                'fk_jurusan' => 'required|exists:mentors,id',
+            ]);
+
+            // Cek apakah judul cover dengan fk_jurusan yang sama sudah ada
+            $cekCover = Cover::where('judul', $request->judul)
+                            ->where('fk_jurusan', $request->fk_jurusan)
+                            ->where('id', '!=', $id) // Pastikan bukan dirinya sendiri
+                            ->exists();
+
+            if ($cekCover) {
+                return redirect()->back()->withInput()->with('error', 'Judul cover sudah ada dalam sistem!');
             }
 
-            // Ambil file & buat nama unik
-            $file = $request->file('thumbnail');
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            // Simpan thumbnail baru jika diunggah
+            if ($request->hasFile('thumbnail')) {
+                // Hapus thumbnail lama jika ada
+                if ($cover->thumbnail && Storage::disk('public')->exists($cover->thumbnail)) {
+                    Storage::disk('public')->delete($cover->thumbnail);
+                }
 
-            // Simpan file di storage/app/public/thumbnail
-            $fotoPath = $file->storeAs('thumbnail', $fileName, 'public');
+                // Simpan thumbnail baru
+                $fileName = time() . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+                $thumbnailPath = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
 
-            // Simpan ke database
-            $covers->thumbnail = $fotoPath;
+                $cover->thumbnail = $thumbnailPath;
+            }
+
+            // Perbarui data cover
+            $cover->update([
+                'judul' => $request->judul,
+                'fk_mentor' => $request->fk_mentor,
+                'fk_jurusan' => $request->fk_jurusan,
+            ]);
+
+            $cover->save();
+
+            return redirect()->route('cover.index')->with('success', 'Cover berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        // Update data lainnya
-        $covers->update($request->except(['thumbnail']));
-
-        return redirect()->route('admin.cover', $id)->with('success', 'Cover berhasil diperbarui');
     }
-
 
     public function editV($id)
     {
@@ -248,25 +278,36 @@ class AdminController extends Controller
 
     public function updateV(Request $request, $id)
     {
-        // Ambil data berdasarkan ID
+        // Ambil data materi berdasarkan ID
         $materis = Materi::findOrFail($id);
 
         // Validasi input
         $request->validate([
             'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
             'path' => 'required|url', // Pastikan URL valid
         ]);
 
-        // Update data materi menggunakan objek model, bukan secara statis
+        // Cek apakah ada materi lain dengan judul yang sama dalam fk_cover yang sama
+        $cekMateri = Materi::where('judul', trim($request->judul))
+                            ->where('fk_cover', $materis->fk_cover)
+                            ->where('id', '!=', $id) // Kecuali dirinya sendiri
+                            ->exists();
+
+        if ($cekMateri) {
+            return redirect()->back()->withInput()->with('error', 'Materi dengan judul tersebut sudah ada!');
+        }
+
+        // Update data materi
         $materis->update([
-            'judul' => $request->judul,
-            'path' => $request->path,
+            'judul' => trim($request->judul),
+            'deskripsi' => $request->deskripsi,
+            'path'  => $request->path,
         ]);
 
         return redirect()->route('admin.materi', ['id' => $materis->fk_cover])
             ->with('success', 'Video berhasil diperbarui!');
     }
-
 
     public function deleteV($id)
     {
@@ -339,7 +380,7 @@ class AdminController extends Controller
 
         return view('user.mentor', compact('mentors'));
     }
-        
+
     public function transaksi() {
         $transaksi = Transaksi::all(); // Ambil semua data dari tabel transaksi
         return view('admin.transaksi', compact('transaksi')); // Kirim data ke view
@@ -355,7 +396,8 @@ class AdminController extends Controller
     {
         $mentors = Mentor::all();
         $covers = Cover::all();
-        return view('admin.quiz.add', compact('mentors','covers'));
+
+        return view('admin.quiz.add', compact( 'mentors', 'covers'));
     }
 
     public function storeQuiz(Request $request)
@@ -365,6 +407,11 @@ class AdminController extends Controller
             'fk_cover' => 'required|integer|exists:covers,id',
             'fk_mentor' => 'required|integer|exists:mentors,id',
         ]);
+
+        $cekquiz = Quiz::where('judul', $request->judul)->first();
+        if ($cekquiz) {
+            return redirect()->back()->with('error', 'Nama quiz sudah ada!')->withInput();
+        }
 
         Quiz::create([
             'judul' => $request->judul,
@@ -390,6 +437,11 @@ class AdminController extends Controller
             'fk_cover' => 'required|integer|exists:covers,id',
             'fk_mentor' => 'required|integer|exists:mentors,id',
         ]);
+
+        $cekquiz = Quiz::where('judul', $request->judul)->first();
+        if ($cekquiz) {
+            return redirect()->back()->with('error', 'Nama quiz sudah ada!')->withInput();
+        }
 
         $quiz = Quiz::findOrFail($id);
         $quiz->update($request->all());
@@ -431,24 +483,33 @@ class AdminController extends Controller
             ]),
         ]);
 
-        Soal::create([
-            'fk_quiz' => $id,
-            'pertanyaan' => $request->pertanyaan,
-            'pilihan1' => $request->pilihan1,
-            'pilihan2' => $request->pilihan2,
-            'pilihan3' => $request->pilihan3,
-            'pilihan4' => $request->pilihan4,
-            'correct' => $request->correct,
-        ]);
+        try {
+            Soal::create([
+                'fk_quiz' => $id,
+                'pertanyaan' => $request->pertanyaan,
+                'pilihan1' => $request->pilihan1,
+                'pilihan2' => $request->pilihan2,
+                'pilihan3' => $request->pilihan3,
+                'pilihan4' => $request->pilihan4,
+                'correct' => $request->correct,
+            ]);
 
-        return redirect()->route('admin.soal', ['id' => $id])->with('success', 'Soal berhasil ditambahkan!');
+            return redirect()->route('admin.soal', ['id' => $id])->with('success', 'Soal berhasil ditambahkan!');
+        } catch (QueryException $e) {
+            if ($e->getCode() == 23000) { // Error code untuk duplicate entry
+                return redirect()->back()->with('error', 'Pertanyaan ini sudah ada dalam quiz ini!')->withInput();
+            }
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan soal!')->withInput();
+        }
     }
+
 
     // Menampilkan form edit soal
     public function editSoal($id)
     {
         $soal = Soal::findOrFail($id);
-        return view('admin.soal.edit', compact('soal'));
+        $quiz = Quiz::findOrFail($soal->fk_quiz);
+        return view('admin.soal.edit', compact('soal','quiz'));
     }
 
     // Menyimpan perubahan soal

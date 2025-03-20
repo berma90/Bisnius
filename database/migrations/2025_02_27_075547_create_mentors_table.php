@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mentors', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_mentor');
+            $table->string('nama_mentor')->unique();
             $table->text('chat')->nullable();
             $table->foreignId('id_jurusan')->constrained('jurusans')->onDelete('cascade'); // Foreign key harus cocok dengan tabel 'jurusans'
             $table->text('deskripsi')->nullable();

@@ -3,6 +3,12 @@
 @section('title', 'Tambah Soal')
 
 @section('content')
+    @if (session('error'))
+        <div class=" bg-red-500 text-white p-3 rounded-md mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <h1 class="text-3xl font-bold text-secondary10 text-center">DASHBOARD ADMIN</h1>
     <p class="mt-2 text-xl font-bold text-white">Tambah Soal</p>
 

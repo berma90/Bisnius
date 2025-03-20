@@ -5,19 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class History extends Model
+class Sertifikat extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'fk_user',
-        'fk_cover',
-        'viewed_at'
+        'fk_quiz',
+        'fk_dataquiz',
+        'path'
     ];
 
-    public function cover()
+    public function quiz()
     {
-        return $this->belongsTo(Cover::class, 'fk_cover');
+        return $this->belongsTo(Quiz::class, 'fk_quiz');
+    }
+
+    public function dataquiz()
+    {
+        return $this->belongsTo(Dataquiz::class, 'fk_dataquiz');
     }
 
     public function user()

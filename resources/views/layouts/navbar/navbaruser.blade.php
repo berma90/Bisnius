@@ -78,7 +78,7 @@
     </nav>
 
     {{-- Konten Halaman --}}
-    <div class="container mx-auto mt-4">
+    <div class="container m-0">
         @yield('content')
     </div>
 </body>

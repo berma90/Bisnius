@@ -23,7 +23,6 @@ class Jurusan extends Model
     }
     public function materis()
     {
-        return $this->hasMany(Materi::class, 'fk_jurusan', 'id');
-
+        return $this->hasMany(Materi::class, 'fk_jurusan');
     }
 }

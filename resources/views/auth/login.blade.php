@@ -1,8 +1,8 @@
 <x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center bg-cover bg-center" 
+    <div class="min-h-screen flex items-center justify-center bg-cover bg-center"
          style="background-image: url('{{ asset('images/bg-login.png') }}');">
     <x-authentication-card>
-       
+
 
         <x-validation-errors class="mb-4" />
 
@@ -22,7 +22,7 @@
             </div>
             <div class="flex flex-row items-center justify-center">
                 <x-label for="password"  class="text-white  text-[20px]" value="{{ __('Password') }}" />
-                <x-input id="password" class="block my-3 w-full h-8 ml-5" type="password" name="password" required autocomplete="current-password" />
+                <x-input id="password" class="block my-3 w-full h-8 ml-6" type="password" name="password" required autocomplete="current-password" />
             </div>
 
 
@@ -33,7 +33,7 @@
                 <x-button class="ms-4 bg-blue-600">
                     {{ __('Log in') }}
                 </x-button>
-                
+
             </div>
             <div class="text-white text-center mt-6">
                 <p class="font-semibold">Doesn't Have Account?</p>

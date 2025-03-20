@@ -9,7 +9,12 @@ class Materi extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['judul', 'path','fk_cover'];
+    protected $fillable = [
+        'judul',
+        'path',
+        'deskripsi',
+        'fk_cover'
+    ];
 
     public function cover()
     {

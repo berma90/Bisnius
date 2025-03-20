@@ -26,4 +26,9 @@ class Mentor extends Model
     {
         return $this->hasMany(Cover::class, 'fk_mentor');
     }
+    public function quiz()
+    {
+        return $this->hasMany(Quiz::class, 'fk_mentor');
+    }
 }
+

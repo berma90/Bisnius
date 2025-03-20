@@ -48,13 +48,13 @@
                 </td>
                 <td class="p-3 border">{{ Str::limit($mentors->deskripsi, 30, '..') }}</td>
                 <td class=" flex p-3 border text-center gap-2 justify-center">
-                    <a href="{{ route('mentor.edit', $mentors->id) }}" class="bg-yellow-400 text-black px-3 py-1 rounded-lg hover:bg-yellow-500 transition">
+                    <a href="{{ route('mentor.edit', $mentors->id) }}" class="bg-yellow-400 text-black px-3 py-1 rounded-full hover:bg-yellow-500 transition">
                         Edit
                     </a>
                     <form action="{{ route('mentor.destroy', $mentors->id) }}" method="POST" class="inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition"
+                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition"
                             onclick="return confirm('Apakah yakin ingin menghapus mentor ini?');">
                             Delete
                         </button>

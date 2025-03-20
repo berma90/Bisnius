@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Cover;
 use App\Models\Jurusan;
 use App\Models\Materi;
 use App\Models\Quiz;
-use App\Models\Soal;
+use App\Models\History;
 
 class ClassController extends Controller
 {
@@ -17,34 +18,54 @@ class ClassController extends Controller
         $search = $request->query('search');
         $selectedJurusan = $request->query('filter');
 
-        $query = Cover::query();
+        $data = Cover::query()
+            ->when($search, fn($q) => $q->where('judul', 'LIKE', "%{$search}%"))
+            ->when($selectedJurusan, fn($q) => $q->where('fk_jurusan', $selectedJurusan))
+            ->get();
 
-        if ($search) {
-            $query->where('judul', 'LIKE', "%{$search}%");
-        }
-
-        if ($selectedJurusan) {
-            $query->where('fk_jurusan', $selectedJurusan);
-        }
-
-        $data = $query->get();
-
-        return view('user.class', compact('data', 'jurusanList', 'selectedJurusan', 'search'));
+        return view('user.class', compact('jurusanList', 'search', 'selectedJurusan', 'data'));
     }
 
     public function materi($id)
     {
-        $cover = Cover::where('id', $id)->first();
+        $cover = Cover::findOrFail($id);
         $materi = Materi::where('fk_cover', $id)->get();
-        $quiz = Quiz::where('fk_cover', $id)->get(); // Ambil quiz berdasarkan id_cover
+        $quiz = Quiz::where('fk_cover', $id)->get();
+
+        foreach ($materi as $item) {
+            $item->embedUrl = $this->convertToEmbedUrl($item->path);
+        }
+
+        // Simpan history jika user sudah login
+        if (Auth::check()) {
+            // Simpan atau perbarui histori
+            History::updateOrCreate(
+                ['fk_user' => Auth::id(), 'fk_cover' => $id],
+                ['viewed_at' => now()]
+            );
+
+            // Ambil histori terbaru (maksimal 3)
+            $userHistories = History::where('fk_user', Auth::id())
+                ->orderBy('viewed_at', 'desc')
+                ->get();
+
+            // Jika lebih dari 3, hapus yang paling lama
+            if ($userHistories->count() > 3) {
+                $userHistories->slice(3)->each->delete();
+            }
+        }
 
         return view('user.materi', compact('materi', 'quiz', 'cover'));
     }
 
-    public function quiz($id)
+    private function convertToEmbedUrl($url)
     {
-        $quiz = Quiz::findOrFail($id);
-        $soal = Soal::where('fk_quiz', $id)->get();
-        return view('quiz.show', compact('quiz', 'soal'));
+        if (strpos($url, 'youtu.be') !== false) {
+            $videoId = explode("/", parse_url($url, PHP_URL_PATH))[1];
+            return "https://www.youtube.com/embed/" . $videoId;
+        } elseif (strpos($url, 'watch?v=') !== false) {
+            return str_replace("watch?v=", "embed/", $url);
+        }
+        return $url;
     }
 }

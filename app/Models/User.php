@@ -40,6 +40,11 @@ class User extends Authenticatable
         'gauth_type', // tambahkan ini
     ];
 
+    public function dataQuiz()
+    {
+        return $this->hasMany(Dataquiz::class, 'fk_user');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

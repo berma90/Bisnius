@@ -96,7 +96,7 @@ public function pay(Request $request) {
 
     public function callback(Request $request) {
     $data = $request->input();
-    
+
     Log::info('Callback Data:', $data);
 
     if (empty($data)) {

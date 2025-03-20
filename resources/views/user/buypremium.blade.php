@@ -17,7 +17,7 @@
             </div>
             <p class="mt-2">Dapatkan akses menonton lebih luas dan ilmu bisnis yang bisa anda dapatkan dari mentor terkenal!</p>
             <h3 class="text-2xl font-bold mt-4">Rp {{ number_format($paket[1], 0, ',', '.') }}</h3>
-            <button class="beli-paket bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4" 
+            <button id="pay-button" class="beli-paket bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4"
                     data-paket="{{ $paket[0] }}">
                 Beli Paket
             </button>
@@ -27,38 +27,34 @@
 </div>
 
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 <script>
-document.querySelectorAll(".beli-paket").forEach(button => {
-    button.addEventListener("click", function() {
-        let paket = this.getAttribute("data-paket");
-
-        fetch("{{ route('pay') }}", {
-            method: "POST",
+    document.getElementById('pay-button').onclick = function () {
+        fetch('/pay', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify({ paket: paket })
+            body: JSON.stringify({ paket: '7 DAYS' })
         })
         .then(response => response.json())
         .then(data => {
+            console.log("Token Midtrans:", data.token);
             if (data.token) {
-                snap.pay(data.token);
+                window.snap.pay(data.token);
             } else {
-                alert("Gagal mendapatkan token pembayaran.");
+                alert("Gagal mendapatkan token pembayaran");
             }
         })
         .catch(error => console.error("Error:", error));
-    });
-});
-</script>
-
-<script>
+    };
+    
     function redirectToClass() {
-    setTimeout(function () {
-        window.location.href = "/class-universal";
-    }, 3000);
-}
+        setTimeout(function () {
+            window.location.href = "/class-universal";
+        }, 3000);
+    }
 </script>
 
 @endsection

@@ -1,5 +1,7 @@
 @extends(Auth::check() ? 'layouts.navbar.navbarprofile' : 'layouts.navbar.navbaruser')
 
+@section('title', 'Class')
+
 @section('content')
     @include('layouts.navbar.search')
 
@@ -18,10 +20,14 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach ($covers as $cover)
-                        <a href="{{ route('cover.show', $cover->id) }}" class="block">
+                        @if (Auth::check())
+                            <a href="{{ route('cover.show', $cover->id) }}" class="block">
+                        @else
+                            <a href="{{ route('login') }}" onclick="return confirm('Anda harus login terlebih dahulu untuk melihat detail cover. Apakah Anda ingin login sekarang?');" class="block">
+                        @endif
                             <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
                                 <img src="{{ $cover->thumbnail ? asset('storage/' . $cover->thumbnail) : asset('images/default-cover.jpg') }}"
-                                     alt="{{ $cover->judul }}" class="w-full h-48 object-cover">
+                                    alt="{{ $cover->judul }}" class="w-full h-48 object-cover">
 
                                 <div class="p-4">
                                     <h3 class="text-lg font-semibold text-gray-800">{{ $cover->judul }}</h3>

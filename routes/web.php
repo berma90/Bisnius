@@ -8,16 +8,37 @@ use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\SeeController;
 use App\Http\Controllers\transaksicontroller;
-use App\Http\Controllers\Classcontroller;
+use App\Http\Controllers\ClassController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\MentorController;
 use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/home', function () {
     return view('user.landingpage');
 })->name('home');
+Route::get('/test', function () {
+    return view('user.sfwe');
+})->name('mboh');
+
+Route::get('/mentor', [MentorController::class, 'index'])->name('mentor');
 
 Route::get('/class', [ClassController::class, 'index'])->name('user.class');
 Route::get('/class/materi/{id}', [ClassController::class, 'materi'])->name('cover.show');
-Route::get('/quiz/{id}', [ClassController::class, 'quiz'])->name('quiz.show');
+// Tambahkan route di web.php
+Route::post('/quiz/{id}/next', [QuizController::class, 'nextSoal'])->name('quiz.next');
+Route::get('/quiz/{id}/finish', [QuizController::class, 'finishQuiz'])->name('quiz.finish');
+// Menampilkan soal pertama
+Route::get('/quiz/{id}', [QuizController::class, 'quiz'])->name('quiz.show');
+Route::post('/quiz/{id}/previous', [QuizController::class, 'previous'])->name('quiz.previous');
+// Menangani submit jawaban akhir
+Route::post('/quiz/{quizId}/submit', [QuizController::class, 'submitQuiz'])->name('quiz.submit');
+// Menampilkan hasil quiz
+Route::get('/quiz/{quizId}/result', [QuizController::class, 'quizResult'])->name('quiz.result');
+Route::get('/quiz/{quizId}/reset', [QuizController::class, 'resetQuiz'])->name('quiz.reset');
+Route::get('/quiz/ulangi/{id}', [QuizController::class, 'ulangiQuiz'])->name('quiz.ulangi');
+Route::get('/quiz/certificate/{quizId}', [QuizController::class, 'generateCertificate'])->name('quiz.certificate');
+
+
 
 Route::get('/mentorjur', function () {
     return view('user.mentorjur');
@@ -32,40 +53,38 @@ Route::get('/buypremium', function () {
     return view('user.buypremium');
 })->name('buypremium');
 
-Route::get('/profilC', function () {
-    return view('class.class');
-})->name('profilC');
-
-Route::get('/profilT', function () {
-    return view('class.transaksi');
-})->name('profilT');
-
-Route::get('/profilA', function () {
-    return view('class.appreciate');
-})->name('profilA');
-
-Route::get('/jur', function () {
-    return view('user.class-jur');
-})->name('jur');
-Route::get('/univ', function () {
-    return view('user.class-univ');
-})->name('univ');
-
 Route::middleware(['auth'])->group(function () {
     Route::post('/pay', [MidtransController::class, 'pay'])->name('pay');
 });
 
 Route::post('/payment/callback', [PaymentController::class, 'handleCallback']);
 
-Route::get('/editprof', function () {return view('class.editprof');})->name('editprof');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-Route::get('/dtdiri', function () {return view('class.dtdiri');})->name('dtdiri');
-Route::put('/profile/updatedtr', [ProfileController::class, 'updatedtr'])->name('profile.updatedtr');
+Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+    Route::get('/editprof', function () {return view('class.editprof');})->name('editprof');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-Route::get('/profileU', [ProfileController::class, 'profile'])->name('user.profileU');
+    Route::get('/dtdiri', function () {return view('class.dtdiri');})->name('dtdiri');
+    Route::put('/profile/updatedtr', [ProfileController::class, 'updatedtr'])->name('profile.updatedtr');
 
-Route::get('/mentor', [SeeController::class, 'seeMen'])->name('mentor');
+});
+
+Route::get('/profile', [ProfileController::class, 'profile'])->name('user.profile');
+Route::get('/profile/class', [ProfileController::class, 'classHistory'])->name('profilC');
+Route::get('/profile/transaction', [ProfileController::class, 'transactionHistory'])->name('profilT');
+Route::get('/profile/appreciate', [ProfileController::class, 'appreciateHistory'])->name('profilA');
+
+// Route::get('/profilC', function () {
+//     return view('class.class');
+// })->name('profilC');
+
+// Route::get('/profilT', function () {
+//     return view('class.transaksi');
+// })->name('profilT');
+
+// Route::get('/profilA', function () {
+//     return view('class.appreciate');
+// })->name('profilA');
 
 
 
@@ -78,15 +97,9 @@ Route::get('/download/{filename}', function ($filename) {
     return response()->download($path);
 })->name('download.image');
 
-
     Route::get('/', function () {
         return view('user.landingpage');
     })->name('home');
-
-
-Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');
-Route::get('oauth/google/callback', [\App\Http\Controllers\OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
-
 
 Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');
 Route::get('oauth/google/callback', [\App\Http\Controllers\OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
@@ -109,12 +122,6 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
     Route::get('/admin/transaksi', [AdminController::class, 'transaksi'])->name('admin.transaksi');
 
-    Route::get('/manageM', function () { return view('admin.materi.manageM'); })->name('admin.manage');
-    Route::get('/editV', function () { return view('admin.materi.editV'); })->name('admin.editV');
-    Route::get('/tambahV', function () { return view('admin.materi.tambahV'); })->name('admin.tambahV');
-    Route::get('/addM', function () { return view('admin.materi.addM'); })->name('admin.addM');
-
-
     Route::get('/editM/{id}', [AdminController::class, 'editCover'])->name('admin.editM');
     Route::put('/editM/update/{id}', [AdminController::class, 'updateM'])->name('admin.updateM');
     Route::delete('/deleteM/{id}', [AdminController::class, 'deleteM'])->name('admin.deleteM');
@@ -126,14 +133,14 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/deleteV/{id}', [AdminController::class, 'deleteV'])->name('materi.deleteV');
     Route::delete('/deleteC/{id}', [AdminController::class, 'deleteCover'])->name('cover.delete');
 
-    Route::get('/Materi/create', [AdminController::class, 'createCover'])->name('cover.create');
-    Route::post('/createM', [AdminController::class, 'storeCover'])->name('cover.store');
+    Route::get('/cover/create', [AdminController::class, 'createCover'])->name('cover.create');
+    Route::post('/cover/store', [AdminController::class, 'storeCover'])->name('cover.store');
 
     Route::get('/datamateri', [AdminController::class, 'dataCover'])->name('admin.cover');
     Route::get('/manageM/{id}', [AdminController::class, 'dataMateri'])->name('admin.materi');
 
     Route::get('/dataquiz', [AdminController::class, 'dataQuiz'])->name('admin.quiz');
-    Route::get('/quiz/create', [AdminController::class, 'createQuiz'])->name('quiz.create');
+    Route::get('/createquiz', [AdminController::class, 'createQuiz'])->name('quiz.create');
     Route::post('/quiz/store', [AdminController::class, 'storeQuiz'])->name('quiz.store');
     Route::get('/quiz/edit/{id}', [AdminController::class, 'editQuiz'])->name('quiz.edit');
     Route::post('/quiz/update/{id}', [AdminController::class, 'updateQuiz'])->name('quiz.update');

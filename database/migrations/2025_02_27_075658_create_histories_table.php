@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fk_user')->constrained('users')->onDelete('cascade');
-            $table->string('page_url');
-            $table->string('page_title');
+            $table->foreignId('fk_cover')->constrained('covers')->onDelete('cascade');
+            $table->timestamp('viewed_at');
             $table->timestamps();
         });
 

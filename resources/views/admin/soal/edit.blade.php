@@ -3,6 +3,12 @@
 @section('title', 'Edit Soal')
 
 @section('content')
+    @if (session('error'))
+        <div class=" bg-red-500 text-white p-3 rounded-md mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <h1 class="text-3xl font-bold text-secondary10 text-center">DASHBOARD ADMIN</h1>
     <p class="mt-2 text-xl font-bold text-white">Edit Soal</p>
 
@@ -57,8 +63,8 @@
                 <button class="px-4 py-2 bg-secondary50 text-white rounded-full" type="submit">Simpan</button>
             </div>
 
-            <div class="flex justify-start mt-4">
-                <a href="{{ route('admin.soal', $quiz->id) }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition">
+            <div class=" absolute bottom-4 left-4">
+                <a href="{{ route('admin.soal', $quiz->id) }}" class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition">
                     ← Back
                 </a>
             </div>

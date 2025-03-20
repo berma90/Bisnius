@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->string('kategori');
+            $table->string('judul')->unique();
+            $table->foreignId('fk_cover')->constrained('covers')->onDelete('cascade');
             $table->foreignId('fk_mentor')->constrained('mentors')->onDelete('cascade');
             $table->timestamps();
         });

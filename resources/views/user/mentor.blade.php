@@ -1,39 +1,50 @@
 @extends(Auth::check() ? 'layouts.navbar.navbarprofile' : 'layouts.navbar.navbaruser')
 
+@section('title', 'Mentor')
 
 @section('content')
-<div class="w-full">
-    <!-- Search Bar -->
-    <div class="w-full">
-        @include('layouts.navbar.searchM')
-    </div>
+    <!-- Include Search & Filter -->
+    @include('layouts.navbar.search')
 
-<div class="grid pt-4 h-48 grid-cols-2 place-content-stretch gap-20">
-    @if ($mentors->isNotEmpty()) <!-- Pastikan data tidak kosong -->
-        @foreach ($mentors as $mentor)
-            <div class="flex flex-col p-4 mx-3 bg-card rounded-2xl hover:shadow-sm hover:shadow-shadow border-shadow border-2">
-                <div class="flex flex-row">
-                    <!-- Menampilkan gambar mentor -->
-                    <img src="{{ Storage::url($mentor->foto) }}" class="rounded-full w-20 h-20" alt="Mentor Image">
+    <div class="container mx-auto px-4 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Daftar Mentor</h2>
 
-                    <div class="flex flex-col">
-                        <p class="text-lg px-3 py-0 pt-2 font-bold">{{ $mentor->nama_mentor }}</p>
-                        <p class="text-lg px-3 text-center font-semibold">{{ $mentor->jurusan?->jurusan }}</p>
-                    </div>
+        @if ($mentors->isEmpty())
+            <p class="text-gray-500 text-lg text-center">Tidak ada mentor yang ditemukan.</p>
+        @else
+            @php
+                $groupedMentors = $mentors->groupBy('jurusan.jurusan');
+            @endphp
 
-                    <!-- Perbaikan struktur <a> di dalam <svg> -->
-                    <a href="{{ $mentor->chat }}" class="ml-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
-                            <rect width="39" height="39" rx="19.5" fill="#05415F"/>
-                            <path d="M19.315 27.6325C20.1061 27.5784 20.8906 27.4521 21.6587 27.255C22.6075 27.5402 23.6088 27.6048 24.5863 27.4438C24.6253 27.439 24.6645 27.4361 24.7038 27.435C25.0525 27.435 25.51 27.635 26.1775 28.0563V27.3638C26.1778 27.2431 26.2104 27.1248 26.272 27.021C26.3335 26.9172 26.4218 26.8319 26.5275 26.7738C26.8183 26.6096 27.0871 26.425 27.3337 26.22C28.3062 25.4075 28.855 24.3225 28.855 23.175C28.855 22.7963 28.795 22.4188 28.6762 22.0588C28.9712 21.5163 29.2063 20.95 29.3813 20.36C29.9438 21.1913 30.2463 22.1725 30.25 23.175C30.25 24.735 29.515 26.19 28.2412 27.2538C28.0279 27.4313 27.805 27.5946 27.5725 27.7438V29.3663C27.5725 29.9238 26.92 30.245 26.46 29.9125C26.0242 29.5918 25.5737 29.2915 25.11 29.0125C24.9761 28.9353 24.8375 28.8664 24.695 28.8063C24.308 28.8635 23.9174 28.8924 23.5263 28.8925C21.9388 28.8925 20.4712 28.4213 19.315 27.6325ZM10.9138 24.3888C8.90875 22.71 7.75 20.4213 7.75 17.9688C7.75 12.9588 12.54 8.95251 18.3888 8.95251C24.2387 8.95251 29.03 12.9575 29.03 17.9688C29.03 22.9788 24.2387 26.9838 18.3888 26.9838C17.7312 26.9838 17.0833 26.9338 16.445 26.8338C16.17 26.8975 15.0675 27.5438 13.48 28.6875C12.905 29.1025 12.09 28.7025 12.09 28.0038V25.2375C11.6783 24.983 11.2856 24.6989 10.915 24.3875M16.4838 25.1275C16.5321 25.1275 16.5808 25.1313 16.63 25.1388C17.205 25.2338 17.7912 25.2817 18.3888 25.2825C23.33 25.2825 27.2838 21.9763 27.2838 17.9675C27.2838 13.96 23.33 10.6538 18.39 10.6538C13.45 10.6538 9.49375 13.9625 9.49375 17.9688C9.49375 19.9063 10.4188 21.7313 12.0512 23.0975C12.4629 23.4408 12.9113 23.7492 13.3963 24.0225C13.5278 24.0955 13.6376 24.2022 13.7145 24.3315C13.7914 24.4609 13.8325 24.6083 13.8338 24.7588V26.3538C15.09 25.5225 15.9163 25.1275 16.4838 25.1275Z" fill="white"/>
-                        </svg>
-                    </a>
+            @foreach ($groupedMentors as $jurusan => $mentorList)
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">{{ $jurusan ?? 'Tanpa Jurusan' }}</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @foreach ($mentorList as $mentor)
+                        <a href="{{ $mentor->chat }}" class="ml-auto">
+                            <div class="bg-white shadow-md rounded-lg overflow-hidden border-2 border-secondary50 p-4">
+                                <div class="flex items-center gap-4">
+                                    <img src="{{ asset('storage/' . $mentor->foto) }}" class=" rounded-full w-[100px] h-[50px] object-cover" alt="Mentor Image">
+                                    <div>
+                                        <div class="grid grid-cols-2 mb-3">
+                                            <div>
+                                                <h3 class="text-lg font-semibold text-gray-800">{{ $mentor->nama_mentor }}</h3>
+                                                <p class="text-sm text-gray-600 w-[200px]">{{ $mentor->jurusan?->jurusan }}</p>
+                                            </div>
+                                                <div class=" flex justify-end">
+                                                    <svg width="50" height="50" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M12.315 19.6324C13.1061 19.5783 13.8906 19.4519 14.6587 19.2549C15.6074 19.5401 16.6088 19.6046 17.5863 19.4436C17.6253 19.4389 17.6645 19.436 17.7038 19.4349C18.0525 19.4349 18.51 19.6349 19.1775 20.0561V19.3636C19.1778 19.243 19.2104 19.1246 19.272 19.0209C19.3335 18.9171 19.4218 18.8317 19.5275 18.7736C19.8183 18.6095 20.0871 18.4249 20.3337 18.2199C21.3062 17.4074 21.855 16.3224 21.855 15.1749C21.855 14.7961 21.795 14.4186 21.6762 14.0586C21.9712 13.5161 22.2063 12.9499 22.3813 12.3599C22.9438 13.1911 23.2462 14.1724 23.25 15.1749C23.25 16.7349 22.515 18.1899 21.2412 19.2536C21.0279 19.4311 20.805 19.5945 20.5725 19.7436V21.3661C20.5725 21.9236 19.92 22.2449 19.46 21.9124C19.0242 21.5917 18.5737 21.2914 18.11 21.0124C17.9761 20.9352 17.8375 20.8663 17.695 20.8061C17.308 20.8634 16.9174 20.8923 16.5263 20.8924C14.9388 20.8924 13.4712 20.4211 12.315 19.6324ZM3.91375 16.3886C1.90875 14.7099 0.75 12.4211 0.75 9.96864C0.75 4.95864 5.54 0.952393 11.3888 0.952393C17.2387 0.952393 22.03 4.95739 22.03 9.96864C22.03 14.9786 17.2387 18.9836 11.3888 18.9836C10.7313 18.9836 10.0833 18.9336 9.445 18.8336C9.17 18.8974 8.0675 19.5436 6.48 20.6874C5.905 21.1024 5.09 20.7024 5.09 20.0036V17.2374C4.67828 16.9829 4.28558 16.6988 3.915 16.3874M9.48375 17.1274C9.53208 17.1274 9.58083 17.1311 9.63 17.1386C10.205 17.2336 10.7913 17.2816 11.3888 17.2824C16.33 17.2824 20.2838 13.9761 20.2838 9.96739C20.2838 5.95989 16.33 2.65364 11.39 2.65364C6.45 2.65364 2.49375 5.96239 2.49375 9.96864C2.49375 11.9061 3.41875 13.7311 5.05125 15.0974C5.46292 15.4407 5.91125 15.7491 6.39625 16.0224C6.52781 16.0954 6.63764 16.202 6.7145 16.3314C6.79137 16.4607 6.83252 16.6082 6.83375 16.7586V18.3536C8.09 17.5224 8.91625 17.1274 9.48375 17.1274Z" fill="white"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <p class=" justify-center">{{$mentor->deskripsi}}</p>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
-                <p class="text-lg py-2">{{ $mentor->deskripsi }}</p>
-            </div>
-        @endforeach
-    @else
-        <p class="text-lg text-center text-gray-500">Tidak ada mentor yang tersedia.</p>
-    @endif
-</div>
+            @endforeach
+        @endif
+    </div>
 @endsection
