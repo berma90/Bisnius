@@ -49,19 +49,19 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
                 <div class="border rounded-lg p-6 text-center shadow-md">
-                    <img src="img/iconbuku.png" alt="Class Universal" class="mx-auto h-12 mb-4">
-                    <h3 class="font-bold">Class Universal</h3>
-                    <a href="/classuniversal" class=" text-primary50">See Course</a>
-                </div>
-                <div class="border rounded-lg p-6 text-center shadow-md">
                     <img src="img/iconbuku.png" alt="Class Teknik Jaringan Komputer" class="mx-auto h-12 mb-4">
                     <h3 class="font-bold">Class Teknik Jaringan Komputer</h3>
-                    <a href="/class-jur" class="text-primary50">See Course</a>
+                    <a href="/class?search=&filter=1" class=" text-primary50">See Course</a>
                 </div>
                 <div class="border rounded-lg p-6 text-center shadow-md">
                     <img src="img/iconbuku.png" alt="Class Multimedia" class="mx-auto h-12 mb-4">
                     <h3 class="font-bold">Class Multimedia</h3>
-                    <a href="#" class="text-primary50">See Course</a>
+                    <a href="/class?search=&filter=2" class="text-primary50">See Course</a>
+                </div>
+                <div class="border rounded-lg p-6 text-center shadow-md">
+                    <img src="img/iconbuku.png" alt="Class Kimia" class="mx-auto h-12 mb-4">
+                    <h3 class="font-bold">Class Kimia</h3>
+                    <a href="/class?search=&filter=3" class="text-primary50">See Course</a>
                 </div>
             </div>
                 <a href="/class">
@@ -73,31 +73,30 @@
         <!-- Master Teacher Section -->
         <div class="max-w-8xl w-full pl-36 pr-36 pt-20 pb-20 bg-primary50 text-white mt-12">
             <h2 class="text-center text-3xl font-bold">Master Teacher Berpengalaman</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mt-12">
-                <div class="bg-white text-black rounded-lg shadow-md p-6 text-center">
-                    <img src="img/mentoradhi.png" alt="Teacher" class="mx-auto rounded-lg h-40">
-                    <h3 class="font-bold mt-4">Adhi S.Kom</h3>
-                    <p class="text-gray-600">Networking</p>
-                    <a href=""><button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Contact Me</button></a>
-                </div>
-                <div class="bg-white text-black rounded-lg shadow-md p-6 text-center">
-                    <img src="img/mentoradhi.png" alt="Teacher" class="mx-auto rounded-lg h-40">
-                    <h3 class="font-bold mt-4">Adhi S.Kom</h3>
-                    <p class="text-gray-600">Networking</p>
-                    <a href=""><button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Contact Me</button></a>
-                </div>
-                <div class="bg-white text-black rounded-lg shadow-md p-6 text-center">
-                    <img src="img/mentoradhi.png" alt="Teacher" class="mx-auto rounded-lg h-40">
-                    <h3 class="font-bold mt-4">Adhi S.Kom</h3>
-                    <p class="text-gray-600">Networking</p>
-                    <a href=""><button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Contact Me</button></a>
-                </div>
-                <div class="bg-white text-black rounded-lg shadow-md p-6 text-center">
-                    <img src="img/mentoradhi.png" alt="Teacher" class="mx-auto rounded-lg h-40">
-                    <h3 class="font-bold mt-4">Adhi S.Kom</h3>
-                    <p class="text-gray-600">Networking</p>
-                    <a href=""><button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Contact Me</button></a>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+                @foreach ($mentors as $mentor)
+                    <div class="bg-white text-black rounded-3xl shadow-md p-6 text-center justify-center">
+                        <img src="{{ asset('storage/' . $mentor->foto) }}" alt="{{ $mentor->nama_mentor }}" class="mx-auto rounded-lg w-[200px] h-[200px] object-cover">
+                        <h3 class="font-bold text-xl mt-4">{{ $mentor->nama_mentor }}</h3>
+                        <div class="w-[240px] h-[55px] flex items-center justify-center">
+                            <h5 class="font-bold text-sm mt-2">{{ $mentor->jurusan->jurusan }}</h5>
+                        </div>
+                        <div class="flex-grow"></div>
+                        @if($mentor->is_premium)
+                    <!-- Jika mentor premium, tampilkan tombol dengan link chat -->
+                    <a href="{{ $mentor->chat }}" class="mt-auto w-full">
+                        <button class="bg-secondary30 text-white px-4 py-2 rounded-full w-full">
+                            Contact Me
+                        </button>
+                    </a>
+                    @else
+                        <!-- Jika mentor bukan premium, tampilkan tombol yang membuka modal -->
+                        <button onclick="openModal()" class="bg-secondary30 text-white px-4 py-2 rounded-full w-full">
+                            Contact Me
+                        </button>
+                    @endif
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -179,4 +178,27 @@
             <p>&copy; 2025 Bisnius.id</p>
         </div>
     </footer>
+
+    <!-- Modal Peringatan -->
+    <div id="alertModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-xl font-semibold text-gray-800">Fitur Terkunci</h2>
+            <p class="text-gray-600 mt-2">Silakan upgrade ke akun premium untuk mengakses fitur ini.</p>
+            <div class="flex justify-end mt-4">
+                <button onclick="closeModal()" class="px-4 py-2 bg-gray-400 text-white rounded-lg mr-2">Tutup</button>
+                <a href="/buypremium" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Upgrade Sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript untuk Modal -->
+    <script>
+        function openModal() {
+            document.getElementById("alertModal").classList.remove("hidden");
+        }
+
+        function closeModal() {
+            document.getElementById("alertModal").classList.add("hidden");
+        }
+    </script>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
@@ -12,10 +13,13 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\MentorController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Models\Mentor;
 
-Route::get('/home', function () {
-    return view('user.landingpage');
+Route::get('/', function () {
+    $mentors = Mentor::with('jurusan')->inRandomOrder()->take(4)->get();
+    return view('user.landingpage', compact('mentors'));
 })->name('home');
+
 Route::get('/test', function () {
     return view('user.sfwe');
 })->name('mboh');
@@ -96,10 +100,6 @@ Route::get('/download/{filename}', function ($filename) {
     }
     return response()->download($path);
 })->name('download.image');
-
-    Route::get('/', function () {
-        return view('user.landingpage');
-    })->name('home');
 
 Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');
 Route::get('oauth/google/callback', [\App\Http\Controllers\OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');

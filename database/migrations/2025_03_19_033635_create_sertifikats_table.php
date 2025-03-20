@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('fk_user')->constrained('users')->onDelete('cascade');
             $table->foreignId('fk_quiz')->constrained('quizzes')->onDelete('cascade');
-            $table->foreignId('fk_dataquiz')->constrained('dataquizzes')->onDelete('cascade');
             $table->string('path')->nullable();
             $table->timestamps();
         });
