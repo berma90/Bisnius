@@ -3,16 +3,14 @@
 @section('title', 'Data Cover')
 
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+    @if (session('success'))
+    <div class=" bg-green-600 text-white p-3 rounded-md mb-4">
+        {{ session('success') }}
+    </div>
+    @elseif (session('warning'))
+    <div class=" bg-yellow-500 text-white p-3 rounded-md mb-4">
+    {{ session('warning') }}
+    </div>
     @endif
 
     @if ($errors->any())

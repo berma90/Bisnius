@@ -39,7 +39,7 @@
         @else
             <p class="text-red-500">Video tidak tersedia atau URL tidak valid.</p>
         @endif
-        <div id="video-description" class="min-h-[100px] border-t border-gray-300 mt-4 p-2">
+        <div id="video-description" class="min-h-[100px] max-h-[100px] border-t border-gray-300 mt-4 p-2">
             <p>{{ $firstMateri->deskripsi ?? 'Deskripsi tidak tersedia' }}</p>
         </div>
     </div>

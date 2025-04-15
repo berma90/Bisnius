@@ -16,10 +16,14 @@
             @foreach ($certificates as $index => $s)
                 <tr class="border">
                     <td class="border p-2">{{ $index + 1 }}</td>
-                    <td class="border p-2">{{ $s->title }}</td>
+                    <td class="border p-2">Certificate for Quiz #{{ $s->path }}</td>
                     <td class="border p-2">{{ $s->created_at->format('d M Y') }}</td>
                     <td class="border p-2">
-                        <a href="{{ asset('storage/' . $s->path) }}" class="text-blue-600 underline" download>Download</a>
+                        <a href="{{ asset('storage/' . str_replace('public/', '', $s->path)) }}"
+                           class="text-blue-600 underline"
+                           download>
+                           Download
+                        </a>
                     </td>
                 </tr>
             @endforeach
@@ -27,3 +31,4 @@
     </table>
 </div>
 @endsection
+

@@ -7,7 +7,7 @@
     <div class="w-1/4 border-r p-4 border border-black rounded-lg ml-12">
         <div class="flex flex-col items-center">
             <div class="relative">
-               <a href="/profileU"> <img src="/images/prim-prof.png" alt="Profil" class="w-20 h-20 rounded-full border"> </a>
+               <a href="/profile"> <img src="/images/prim-prof.png" alt="Profil" class="w-20 h-20 rounded-full border"> </a>
             </div>
             <p class="mt-2 font-bold">{{ Auth::user()->name }}</p>
         </div>
@@ -20,11 +20,11 @@
             </a>
         </div>
     </div>
-    
+
     <!-- Main Content -->
     <div class="mx-4 p-6 bg-white shadow-sm rounded-md">
         <h2 class="text-2xl font-semibold border-b border-black pb-2 mb-4">Data Pribadi</h2>
-    
+
         <form action="{{ route('profile.updatedtr') }}" method="POST">
             @csrf
             @method('PUT')
@@ -33,7 +33,7 @@
             <label class="block text-gray-600">No. Telepon</label>
             <input id="no_telepon" name="no_telepon" type="number" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
         </div>
-    
+
         <div class="grid grid-cols-2 gap-4">
             <!-- Tanggal Lahir -->
             <div>
@@ -42,7 +42,7 @@
                     <input type="date" id="tgl_lahir" name="tgl_lahir" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
             </div>
-    
+
             <!-- Pendidikan Terakhir -->
             <div>
                 <label class="block text-gray-600 mx-3">Pendidikan terakhir</label>
@@ -53,7 +53,7 @@
             </select>
             </div>
         </div>
-    
+
         <!-- Jenis Kelamin -->
         <div class="mt-4">
             <label class="block text-gray-600">Jenis Kelamin</label>

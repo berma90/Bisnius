@@ -7,7 +7,7 @@
     <div class="w-1/4 border-r p-4 border border-black rounded-lg ml-12">
         <div class="flex flex-col items-center">
             <div class="relative">
-                <a href="/profileU"><img src="/images/prim-prof.png" alt="Profil" class="w-20 h-20 rounded-full border"></a>
+                <a href="/profile"><img src="/images/prim-prof.png" alt="Profil" class="w-20 h-20 rounded-full border"></a>
             </div>
             <p class="mt-2 font-bold">{{ Auth::user()->name }}</p>
         </div>
@@ -20,7 +20,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- Main Content -->
     <div class="w-3/4 p-6 mx-4">
         <h2 class="text-2xl font-semibold border-b border-black pb-2 mb-4">Profil Pengguna</h2>
@@ -39,7 +39,7 @@
                     <option value="Teknik Kendaraan Ringan Otomotif" {{ old('jurusan', Auth::user()->jurusan) == 'Teknik Kendaraan Ringan Otomotif' ? 'selected' : '' }}>Teknik Kendaraan Ringan Otomotif</option>
                     <option value="Teknik Pemesinan" {{ old('jurusan', Auth::user()->jurusan) == 'Teknik Pemesinan' ? 'selected' : '' }}>Teknik Pemesinan</option>
                 </select>
-            </div>            
+            </div>
             <div class="mt-4">
                 <label class="block text-gray-600">Email</label>
                 <input type="email" value="{{ Auth::user()->email}}" class="w-full p-2 border rounded-md bg-gray-200" disabled>

@@ -156,37 +156,31 @@ class QuizController extends Controller
                             ->with('info', 'Sertifikat sudah ada di Profile -> Appreciate.');
         }
 
-        $boldFontPath = public_path('fonts/Roboto-Bold.ttf');
-        $regularFontPath = public_path('fonts/Roboto-Regular.ttf');
+        // Path ke template sertifikat
         $imagePath = public_path('images/certificate.png');
 
-        if (!file_exists($boldFontPath) || !file_exists($regularFontPath)) {
-            return response()->json(['error' => 'Font tidak ditemukan'], 404);
-        }
-
+        // Pastikan template sertifikat ada
         if (!file_exists($imagePath)) {
             return response()->json(['error' => 'Template sertifikat tidak ditemukan'], 404);
         }
 
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($imagePath);
+        // Buat nama file sertifikat berdasarkan user dan quiz
+        $fileName = 'certificate_' . $user->id . '_' . $quiz->id . '.png';
 
-        // Konversi gambar ke format PNG
-        $imageEncoded = $image->toPng()->toString(); // Menggunakan toString() untuk mendapatkan data biner
+        // Path penyimpanan di storage
+        $filePath = 'public/certificates/' . $fileName;
 
-        // Simpan ke database
+        // Pindahkan gambar dari public ke storage
+        $storagePath = storage_path('app/' . $filePath);
+        if (!copy($imagePath, $storagePath)) {
+            return response()->json(['error' => 'Gagal menyimpan sertifikat'], 500);
+        }
+
+        // Simpan informasi sertifikat ke database
         $sertifikat = new Sertifikat();
         $sertifikat->fk_user = $user->id;
         $sertifikat->fk_quiz = $quiz->id;
-        $sertifikat->fk_dataquiz = $quiz->dataquiz_id ?? 0;
-
-        // Simpan gambar ke penyimpanan lokal
-        $fileName = 'certificate_' . $user->id . '_' . $quiz->id . '.png';
-        $filePath = 'public/certificates/' . $fileName;
-        Storage::put($filePath, $image->toPng());
-
-        // Simpan hanya jalur file, bukan isi gambarnya!
-        $sertifikat->path = $filePath;
+        $sertifikat->path = $filePath; // Hanya menyimpan path relatif
         $sertifikat->save();
 
         return redirect()->route('quiz.finish', ['id' => $quizId])

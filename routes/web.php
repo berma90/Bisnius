@@ -64,14 +64,13 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/payment/callback', [PaymentController::class, 'handleCallback']);
 
 
-Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+
     Route::get('/editprof', function () {return view('class.editprof');})->name('editprof');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/dtdiri', function () {return view('class.dtdiri');})->name('dtdiri');
     Route::put('/profile/updatedtr', [ProfileController::class, 'updatedtr'])->name('profile.updatedtr');
 
-});
 
 Route::get('/profile', [ProfileController::class, 'profile'])->name('user.profile');
 Route::get('/profile/class', [ProfileController::class, 'classHistory'])->name('profilC');

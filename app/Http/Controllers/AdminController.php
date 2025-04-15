@@ -262,7 +262,7 @@ class AdminController extends Controller
 
             $cover->save();
 
-            return redirect()->route('cover.index')->with('success', 'Cover berhasil diperbarui!');
+            return redirect()->route('admin.cover')->with('success', 'Cover berhasil diperbarui!');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
